@@ -1,4 +1,8 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class Townhall : MonoBehaviour
 {
@@ -6,19 +10,46 @@ public class Townhall : MonoBehaviour
 
     private RoundManager roundManager;
 
-    private GameObject damageCollider;
+    private HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
+    
+    public string enemyTag = "Enemy";
+    private float damageTimer = 0f;
+
+    private float currentDamage = 0f;
 
     private void Start()
     {
-        health = 1000;
+        health = 1;
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
-        damageCollider = GameObject.Find("Damage Collider");
     }
 
 
     private void Update() 
     {
+         if (enemiesInRange.Count > 0)
+        {
+            damageTimer += Time.deltaTime;
+
+            if (damageTimer >= 0.5f)
+            {
+                TakeDamage(currentDamage);
+                damageTimer = 0f;
+            }
+        }
+
         CheckTownhallDeath();
+    }
+
+    public void RecalculateCurrentDamage()
+    {
+        float damageValue = 0f;
+
+        foreach (Enemy enemy in enemiesInRange)
+        {
+           damageValue += enemy.GetDamage();
+        }
+
+        currentDamage = damageValue;
     }
  
  
@@ -33,6 +64,32 @@ public class Townhall : MonoBehaviour
     {
         this.health = newHealth;
     }
+
+    
+    void OnTriggerEnter(Collider other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            enemiesInRange.Add(enemy);
+            RecalculateCurrentDamage();
+            Debug.Log("Current Enemies Attacking Townhall:" + enemiesInRange.Count + "at " + currentDamage + " DPS");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            enemiesInRange.Remove(enemy);
+            RecalculateCurrentDamage();
+            Debug.Log("Current Enemies Attacking Townhall:" + enemiesInRange.Count + "at " + currentDamage + " DPS");
+        }
+    }
+
 
     public void TakeDamage(float amount)
     {
@@ -51,9 +108,9 @@ public class Townhall : MonoBehaviour
 
     public void GameOver()
     {
-        Destroy(this.gameObject); //Perhaps add a particle effect/more elaborate than just destroy()
+        //Insert way to get rid of central thing, Perhaps add a particle effect/more elaborate than just destroy()
         roundManager.setRoundPhase(RoundManager.RoundPhase.GameOver);
-        Debug.Log("Game Over");
+        SceneManager.LoadScene("Game Over");
     }
 
 
