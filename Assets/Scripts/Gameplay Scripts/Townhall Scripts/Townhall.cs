@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Townhall : MonoBehaviour
 {
+    private const float STARTING_HEALTH = 100f;
     private float health;
 
     private RoundManager roundManager;
@@ -19,13 +20,15 @@ public class Townhall : MonoBehaviour
 
     private void Start()
     {
-        health = 1;
+        health = STARTING_HEALTH;
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
     }
 
 
     private void Update() 
     {
+        Debug.Log("Enemies in range: " + enemiesInRange.Count);
+
          if (enemiesInRange.Count > 0)
         {
             damageTimer += Time.deltaTime;
@@ -52,9 +55,6 @@ public class Townhall : MonoBehaviour
         currentDamage = damageValue;
     }
  
- 
- 
- 
     public float getHealth()
     {
         return health;
@@ -65,38 +65,47 @@ public class Townhall : MonoBehaviour
         this.health = newHealth;
     }
 
-    
     void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
 
         if (enemy != null)
         {
+            enemy.SetDoingDamage();
             enemiesInRange.Add(enemy);
             RecalculateCurrentDamage();
             Debug.Log("Current Enemies Attacking Townhall:" + enemiesInRange.Count + "at " + currentDamage + " DPS");
         }
     }
 
-    void OnTriggerExit(Collider other)
+    public void RemoveFromEnemiesList(Enemy enemy)
     {
-        Enemy enemy = other.GetComponent<Enemy>();
-
-        if (enemy != null)
-        {
-            enemiesInRange.Remove(enemy);
-            RecalculateCurrentDamage();
-            Debug.Log("Current Enemies Attacking Townhall:" + enemiesInRange.Count + "at " + currentDamage + " DPS");
-        }
+        Debug.Log("Removing enemy: " + enemy);
+        enemiesInRange.Remove(enemy);
     }
 
+    /*
+        No need to know the trigger exit since the enemy never willingly leaves it
+        When the enemy is killed they'll tell the townhall to remove it from enemiesInRange
+    */
+    // void OnTriggerExit(Collider other)
+    // {
+    //     Enemy enemy = other.GetComponent<Enemy>();
+    //     Debug.Log("Removing enemy: " + enemy);
+
+    //     if (enemy != null)
+    //     {
+    //         Debug.Log("Removing enemy: " + enemy);
+    //         enemiesInRange.Remove(enemy);
+    //         RecalculateCurrentDamage();
+    //         Debug.Log("Current Enemies Attacking Townhall:" + enemiesInRange.Count + "at " + currentDamage + " DPS");
+    //     }
+    // }
 
     public void TakeDamage(float amount)
     {
         health -= amount * Time.deltaTime;
     }
-
-  
   
     public void CheckTownhallDeath()
     {
@@ -112,7 +121,4 @@ public class Townhall : MonoBehaviour
         roundManager.setRoundPhase(RoundManager.RoundPhase.GameOver);
         SceneManager.LoadScene("Game Over");
     }
-
-
-
 }
