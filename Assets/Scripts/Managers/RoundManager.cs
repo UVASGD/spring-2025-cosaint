@@ -9,7 +9,7 @@ public class RoundManager : MonoBehaviour
     private int currentRound = 0;
     private float phaseTimer;
 
-    public float shopPhaseDuration = 30f;
+    public float shopPhaseDuration = 5f;
     public float roundOverDuration = 10f;
 
 
@@ -18,6 +18,8 @@ public class RoundManager : MonoBehaviour
     public float getPhaseTimer() => phaseTimer;
 
     private Player player;
+
+    private bool RShiftIsPressed = false;
 
     public enum RoundPhase
     {
@@ -36,7 +38,6 @@ public class RoundManager : MonoBehaviour
            switch (roundPhase)
         {
             case RoundPhase.ShopPhase:
-                phaseTimer = shopPhaseDuration;
                 break;
 
             case RoundPhase.EnemiesSpawning:
@@ -64,7 +65,6 @@ public class RoundManager : MonoBehaviour
         currentRound++;
         player.AwardWisdomPoints(2);
         setRoundPhase(RoundPhase.ShopPhase);
-        phaseTimer = shopPhaseDuration;
     }
 
     public void AdvancePhase()
@@ -114,15 +114,33 @@ public class RoundManager : MonoBehaviour
     private void Update()
     {
 
-     if (roundPhase == RoundPhase.ShopPhase || roundPhase == RoundPhase.RoundOver)
+     if (roundPhase == RoundPhase.RoundOver || RShiftIsPressed)
      {
         phaseTimer -= Time.deltaTime;
        
         if (phaseTimer <= 0)
         {
             AdvancePhase();
+            RShiftIsPressed = false;
         }
      }
+
+        if (roundPhase == RoundPhase.ShopPhase)
+        {
+            if (Input.GetKeyDown(KeyCode.RightShift))
+            {
+                Debug.Log("RShift Pressed");
+                RShiftIsPressed = true;
+                phaseTimer = shopPhaseDuration;
+            }
+
+            if (Input.GetKeyUp(KeyCode.RightShift))
+            {
+                Debug.Log("RShift Released");
+                RShiftIsPressed = false;
+                phaseTimer = 0;
+            }
+        }
     }
 
     
