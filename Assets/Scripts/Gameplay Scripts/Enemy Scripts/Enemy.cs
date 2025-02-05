@@ -11,9 +11,16 @@ public class Enemy : MonoBehaviour
     private bool isFrozen = false;
     private float freezeTimer = 0f;
 
+    private bool isDoingDamage = false;
+
+    private GameObject townHall;
+    private Townhall townHallScript;
+
     private void Start() 
     {
-        target = GameObject.Find("Townhall").transform;
+        townHall = GameObject.Find("Townhall");
+        townHallScript = townHall.GetComponent<Townhall>();
+        target = townHall.transform;
     }
 
     private void Update()
@@ -67,6 +74,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void SetDoingDamage()
+    {
+        this.isDoingDamage = true;
+    }
+
     private void ResetSpeed()
     {
         speed = 2f;
@@ -75,6 +87,11 @@ public class Enemy : MonoBehaviour
     // Death logic
     protected virtual void Die()
     {
+        // Ensures out of townhall range do not effect enemiesInRange set
+        if (isDoingDamage)
+        {
+            townHallScript.RemoveFromEnemiesList(this);
+        }
         Debug.Log($"{name} has died!");
         Destroy(gameObject);
     }
