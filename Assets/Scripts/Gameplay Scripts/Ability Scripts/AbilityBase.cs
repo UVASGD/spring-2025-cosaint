@@ -22,10 +22,10 @@ public abstract class AbilityBase
     {
 
         // Check if the current game phase allows ability activation
-        if (RoundManager.Instance.getCurrentRoundPhase() != RoundManager.RoundPhase.EnemiesSpawning &&
-            RoundManager.Instance.getCurrentRoundPhase() != RoundManager.RoundPhase.EnemiesNoLongerSpawning)
+        if (RoundManager.Instance.GetCurrentRoundPhase() != RoundManager.RoundPhase.EnemiesSpawning &&
+            RoundManager.Instance.GetCurrentRoundPhase() != RoundManager.RoundPhase.EnemiesNoLongerSpawning)
         {
-            Debug.Log($"{abilityName} cannot be activated during the {RoundManager.Instance.getCurrentRoundPhase()} phase.");
+            Debug.Log($"{abilityName} cannot be activated during the {RoundManager.Instance.GetCurrentRoundPhase()} phase.");
             return;
         }
 

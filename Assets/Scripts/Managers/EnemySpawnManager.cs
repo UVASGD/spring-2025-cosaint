@@ -6,7 +6,7 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject enemyPrefab;           // The enemy to spawn
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
-    public int enemiesPerRound = 5;         // Number of enemies to spawn per round
+    private int enemiesPerRound = 5;         // Number of enemies to spawn per round
     public float spawnDelay = 1f;           // Delay between spawns
 
     private int enemiesSpawned = 0;         // Track how many enemies are spawned
@@ -29,7 +29,7 @@ public class EnemySpawnManager : MonoBehaviour
     private void Update()
     {
 
-        if (roundManager.getCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && enemiesSpawned < enemiesPerRound)
+        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && enemiesSpawned < enemiesPerRound)
         {
             spawnTimer += Time.deltaTime;
 
@@ -46,13 +46,10 @@ public class EnemySpawnManager : MonoBehaviour
             ResetSpawnedCount();
         }
 
-        if (AreAllEnemiesDefeated() && roundManager.getCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
+        if (AreAllEnemiesDefeated() && roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
         {
             roundManager.AdvancePhase();
         }
-
-
-
     }
 
     private void SpawnEnemy()

@@ -15,7 +15,7 @@ public class TownhallInfoUI : MonoBehaviour
 
     void Update()
     {
-        string townhallHealth = ((int) townhall.getHealth()).ToString();
+        string townhallHealth = ((int) townhall.GetHealth()).ToString();
         townhallHealthText.text = "Townhall Health: " +  townhallHealth;
     }
 

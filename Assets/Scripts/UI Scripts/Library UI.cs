@@ -38,7 +38,7 @@ public class LibraryUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L) && 
             libraryUIInteraction.getIsPlayerInRange() &&
-            roundManager.getCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase && 
+            roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase && 
             !libraryActive) //In range and want to get into library UI
         {
             libraryUI.SetActive(true);

@@ -24,18 +24,18 @@ public class RoundInfoUI : MonoBehaviour
     {
         timerText.enabled = false;
 
-        if (roundManager.getCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase ||
-            roundManager.getCurrentRoundPhase() == RoundManager.RoundPhase.RoundOver)
+        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase ||
+            roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.RoundOver)
         {
-            float currentTimer = roundManager.getPhaseTimer();
+            float currentTimer = roundManager.GetPhaseTimer();
             timerText.text = "Time Left: " + (int) currentTimer; 
             timerText.enabled = true;
         }
 
-        string currentPhase = roundManager.getCurrentRoundPhase().ToString();
+        string currentPhase = roundManager.GetCurrentRoundPhase().ToString();
         phaseText.text = "Phase: " + currentPhase;
 
-        string currentRoundNumber = roundManager.getCurrentRound().ToString();
+        string currentRoundNumber = roundManager.GetCurrentRound().ToString();
         currentRoundText.text = "Round: " + currentRoundNumber;
     }
 }

@@ -23,7 +23,7 @@ public class LibraryUIInteraction : MonoBehaviour
     void Update()
     {
 
-        if (roundManager.getCurrentRoundPhase() != RoundManager.RoundPhase.ShopPhase)
+        if (roundManager.GetCurrentRoundPhase() != RoundManager.RoundPhase.ShopPhase)
         {
             libraryInteractionText.enabled = false;
         }
