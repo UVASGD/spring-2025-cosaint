@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float health = 100f;
-    public float speed = 2f;
-
-    private float damage = 5.00f;
+    private float health = 100f;
+    private const float DEFAULT_SPEED = 5f;
+    private float speed = DEFAULT_SPEED;
+    private float damage = 10f;
     private Transform target;
-
     private bool isFrozen = false;
     private float freezeTimer = 0f;
-
     private bool isDoingDamage = false;
-
     private GameObject townHall;
     private Townhall townHallScript;
 
@@ -25,8 +22,10 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (isFrozen) HandleFreeze();
-        
+        if (isFrozen)
+        {
+            HandleFreeze();
+        }
         Move();
     }
 
@@ -58,8 +57,10 @@ public class Enemy : MonoBehaviour
         if (!isFrozen)
         {
             isFrozen = true;
+            isDoingDamage = false;
             freezeTimer = freezeTime;
-            speed = 0f; 
+            speed = 0f;
+            townHallScript.RemoveFromEnemiesList(this);
         }
     }
 
@@ -70,18 +71,22 @@ public class Enemy : MonoBehaviour
         if (freezeTimer <= 0)
         {
             isFrozen = false;
+            isDoingDamage = true;
             ResetSpeed();
+            townHallScript.AddToEnemiesList(this);
         }
     }
 
-    public void SetDoingDamage()
+    public void SetDoingDamage(bool doingDamage)
     {
-        this.isDoingDamage = true;
+        isDoingDamage = doingDamage;
     }
+
+    public bool GetDoingDamage() => isDoingDamage;
 
     private void ResetSpeed()
     {
-        speed = 2f;
+        speed = DEFAULT_SPEED;
     }
 
     // Death logic
