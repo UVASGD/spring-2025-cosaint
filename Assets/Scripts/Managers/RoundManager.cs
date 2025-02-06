@@ -23,7 +23,7 @@ public class RoundManager : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        SetRoundPhase(RoundPhase.ShopPhase);
+        SetRoundPhase(RoundPhase.RoundOver);
         currentRound = 1;
     }
 
@@ -42,31 +42,20 @@ public class RoundManager : MonoBehaviour
     private void Update()
     {
 
-     if (roundPhase == RoundPhase.RoundOver || RShiftIsPressed)
-     {
-        phaseTimer -= Time.deltaTime;
-       
-        if (phaseTimer <= 0)
+        if (roundPhase == RoundPhase.RoundOver || roundPhase == RoundPhase.ShopPhase)
         {
-            AdvancePhase();
-            RShiftIsPressed = false;
-        }
-     }
-
-        if (roundPhase == RoundPhase.ShopPhase)
-        {
-            if (Input.GetKeyDown(KeyCode.RightShift))
-            {
-                Debug.Log("RShift Pressed");
-                RShiftIsPressed = true;
-                phaseTimer = shopPhaseDuration;
-            }
+            phaseTimer -= Time.deltaTime;
 
             if (Input.GetKeyUp(KeyCode.RightShift))
             {
-                Debug.Log("RShift Released");
+                Debug.Log("Skipped timer phase");
+                RShiftIsPressed = true;
+            }
+
+            if (RShiftIsPressed || phaseTimer <= 0)
+            {
                 RShiftIsPressed = false;
-                phaseTimer = 0;
+                AdvancePhase();
             }
         }
     }
@@ -82,6 +71,7 @@ public class RoundManager : MonoBehaviour
         switch (roundPhase)
         {
             case RoundPhase.ShopPhase:
+                phaseTimer = shopPhaseDuration;
                 break;
 
             case RoundPhase.EnemiesSpawning:
