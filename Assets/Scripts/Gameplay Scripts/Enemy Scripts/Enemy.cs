@@ -1,11 +1,14 @@
+using System;
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     private float health = 100f;
     private const float DEFAULT_SPEED = 5f;
+    private const float BASE_DAMAGE = 10f;
     private float speed = DEFAULT_SPEED;
-    private float damage = 10f;
+    private float damage;
     private Transform target;
     private bool isFrozen = false;
     private float freezeTimer = 0f;
@@ -18,6 +21,7 @@ public class Enemy : MonoBehaviour
         townHall = GameObject.Find("Townhall");
         townHallScript = townHall.GetComponent<Townhall>();
         target = townHall.transform;
+        SetRoundDamage();
     }
 
     private void Update()
@@ -40,6 +44,28 @@ public class Enemy : MonoBehaviour
 
         Vector3 direction = (target.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
+    }
+
+    private void SetRoundDamage()
+    {
+        int currentRound = RoundManager.Instance.GetCurrentRound();
+        float damageMultiplier;
+
+        if (currentRound >= 20)
+        {
+            damageMultiplier = (float) (Math.Log10(currentRound - 19) + 4);
+        }
+        else if (currentRound >= 10)
+        {
+            damageMultiplier = (float)(Math.Log10(currentRound - 9) + 2.5);
+        }
+        else
+        {
+            damageMultiplier = (float) (Math.Log10(currentRound + 1) + .7);
+        }
+        
+        damage = BASE_DAMAGE * damageMultiplier;
+        Debug.Log($"Doing {damage} damage");
     }
 
     // Generic method to take damage

@@ -23,7 +23,7 @@ public class RoundManager : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        SetRoundPhase(RoundPhase.RoundOver);
+        SetRoundPhase(RoundPhase.ShopPhase);
         currentRound = 1;
     }
 

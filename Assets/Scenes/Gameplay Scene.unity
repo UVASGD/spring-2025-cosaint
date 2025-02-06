@@ -974,7 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cee7b30863cc374ba3a60a673ed99d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyTag: Enemy
 --- !u!65 &466685885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1353,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8a21615a53d3448be51c2f889d03d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopPhaseDuration: 1
+  shopPhaseDuration: 15
   roundOverDuration: 10
 --- !u!4 &705181143
 Transform:
@@ -1594,7 +1593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6983215521479146805, guid: f7f01ff1656a85f40bd2b11413e2eb1a, type: 3}
   spawnDiameter: 30
-  enemiesPerRound: 5
   spawnDelay: 3
 --- !u!4 &1019380935
 Transform:
