@@ -17,6 +17,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"Spawn Diameter: {spawnDiameter}");
         areaCenter = GameObject.Find("Townhall").transform;
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
 
@@ -74,6 +75,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         // Calculate radius from diameter
         float radius = diameter / 2;
+        Debug.Log($"Radius: {radius}"); // Add this line
 
         // Generate a random angle in radians
         float randomAngle = Random.Range(0f, Mathf.PI * 2);
