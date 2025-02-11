@@ -6,7 +6,8 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject enemyPrefab;           // The enemy to spawn
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
-    private int enemiesPerRound = 5;         // Number of enemies to spawn per round
+    [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
+    [SerializeField] private int enemiesPerRound = 5;
     public float spawnDelay = 1f;           // Delay between spawns
 
     private int enemiesSpawned = 0;         // Track how many enemies are spawned
@@ -119,5 +120,9 @@ public class EnemySpawnManager : MonoBehaviour
     public int GetCurrentEnemyCount()
     {
         return currentEnemyCount;
+    public void updateEnemyCount()
+    {
+        enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);
+        Debug.Log($"Enemies Per Round: {enemiesPerRound}");
     }
 }
