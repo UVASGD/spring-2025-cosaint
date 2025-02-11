@@ -7,7 +7,7 @@ public class RoundManager : MonoBehaviour
     private Player player;
     private int currentRound;
     private float phaseTimer;
-    [SerializeField] private float shopPhaseDuration = 30f;
+    [SerializeField] private float shopPhaseDuration = 5f;
     [SerializeField] private float roundOverDuration = 10f;
     private bool RShiftIsPressed = false;
     
@@ -42,20 +42,30 @@ public class RoundManager : MonoBehaviour
     private void Update()
     {
 
-        if (roundPhase == RoundPhase.RoundOver || roundPhase == RoundPhase.ShopPhase)
+        if (roundPhase == RoundPhase.RoundOver || RShiftIsPressed)
         {
             phaseTimer -= Time.deltaTime;
 
-            if (Input.GetKeyUp(KeyCode.RightShift))
-            {
-                Debug.Log("Skipped timer phase");
-                RShiftIsPressed = true;
-            }
-
-            if (RShiftIsPressed || phaseTimer <= 0)
+            if (phaseTimer <= 0)
             {
                 RShiftIsPressed = false;
                 AdvancePhase();
+            }
+        }
+
+        if (roundPhase == RoundPhase.ShopPhase)
+        {
+            if (Input.GetKeyDown(KeyCode.RightShift))
+            {
+                Debug.Log("RShift Pressed");
+                RShiftIsPressed = true;
+                phaseTimer = shopPhaseDuration;
+            }
+            if (Input.GetKeyUp(KeyCode.RightShift))
+            {
+                Debug.Log("RShift Released");
+                RShiftIsPressed = false;
+                phaseTimer = shopPhaseDuration;
             }
         }
     }
