@@ -15,6 +15,7 @@ public class EnemySpawnManager : MonoBehaviour
     private bool allEnemiesDefeated;          // Timer for delay between spawns
     private RoundManager roundManager;       // Reference to the round manager
 
+    private int currentEnemyCount = 0;
     private void Start()
     {
         Debug.Log($"Spawn Diameter: {spawnDiameter}");
@@ -66,7 +67,7 @@ public class EnemySpawnManager : MonoBehaviour
 
         // Spawn the enemy
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-
+        currentEnemyCount++;
         enemiesSpawned++;
         Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
     }
@@ -108,5 +109,15 @@ public class EnemySpawnManager : MonoBehaviour
             Gizmos.color = new Color(0f, 1f, 0f, 0.3f); // Transparent green
             Gizmos.DrawWireSphere(areaCenter.position, spawnDiameter / 2);
         }
+    }
+
+    public void DecrementEnemyCount()
+    {
+        currentEnemyCount--;
+    }
+
+    public int GetCurrentEnemyCount()
+    {
+        return currentEnemyCount;
     }
 }

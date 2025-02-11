@@ -16,9 +16,12 @@ public class Enemy : MonoBehaviour
     private GameObject townHall;
     private Townhall townHallScript;
 
+    private EnemySpawnManager enemySpawnManager;
+
     private void Start() 
     {
         townHall = GameObject.Find("Townhall");
+        enemySpawnManager = GameObject.Find("Enemy Spawn Manager").GetComponent<EnemySpawnManager>();
         townHallScript = townHall.GetComponent<Townhall>();
         target = townHall.transform;
         SetRoundDamage();
@@ -123,6 +126,8 @@ public class Enemy : MonoBehaviour
         {
             townHallScript.RemoveFromEnemiesList(this);
         }
+        
+        enemySpawnManager.DecrementEnemyCount();
         Debug.Log($"{name} has died!");
         Destroy(gameObject);
     }
