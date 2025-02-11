@@ -28,7 +28,11 @@ public class RoundInfoUI : MonoBehaviour
             roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.RoundOver)
         {
             float currentTimer = roundManager.GetPhaseTimer();
-            timerText.text = "Time Left: " + (int) currentTimer; 
+            timerText.text = "Time Left: " + (int) currentTimer;
+            if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase)
+            {
+                timerText.text += "\nHold Right Shift to Begin Round";
+            }
             timerText.enabled = true;
         }
 

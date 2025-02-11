@@ -1352,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8a21615a53d3448be51c2f889d03d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopPhaseDuration: 15
+  shopPhaseDuration: 5
   roundOverDuration: 10
 --- !u!4 &705181143
 Transform:
