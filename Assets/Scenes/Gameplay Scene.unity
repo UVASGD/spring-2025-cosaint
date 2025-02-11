@@ -1678,7 +1678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &637909694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2465,6 +2465,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6983215521479146805, guid: f7f01ff1656a85f40bd2b11413e2eb1a, type: 3}
   spawnDiameter: 30
+  enemiesMultiplier: 1.5
+  enemiesPerRound: 5
   spawnDelay: 3
 --- !u!4 &1019380935
 Transform:
@@ -3970,7 +3972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1948215919
 MonoBehaviour:
   m_ObjectHideFlags: 0

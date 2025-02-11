@@ -19,7 +19,6 @@ public class Townhall : MonoBehaviour
 
     private void Update() 
     {
-        Debug.Log("Enemies in range: " + enemiesDamaging.Count);
         if (enemiesDamaging.Count > 0)
         {
             damageTimer += Time.deltaTime;

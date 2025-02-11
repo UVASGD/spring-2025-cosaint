@@ -120,9 +120,13 @@ public class EnemySpawnManager : MonoBehaviour
     public int GetCurrentEnemyCount()
     {
         return currentEnemyCount;
+    }    
+    
     public void updateEnemyCount()
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);
         Debug.Log($"Enemies Per Round: {enemiesPerRound}");
     }
+
 }
+
