@@ -10,7 +10,9 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private float shopPhaseDuration = 5f;
     [SerializeField] private float roundOverDuration = 10f;
     private bool RShiftIsPressed = false;
-    
+
+    private EnemySpawnManager enemySpawnManager;
+
     public enum RoundPhase
     {
         ShopPhase,
@@ -25,6 +27,12 @@ public class RoundManager : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         SetRoundPhase(RoundPhase.ShopPhase);
         currentRound = 1;
+        enemySpawnManager = GameObject.Find("Enemy Spawn Manager").GetComponent<EnemySpawnManager>();
+
+        if (enemySpawnManager == null)
+        {
+            Debug.LogError("EnemySpawnManager not assigned!");
+        }
     }
 
     private void Awake()
@@ -105,6 +113,7 @@ public class RoundManager : MonoBehaviour
     public void GoToNextRound()
     {
         currentRound++;
+        enemySpawnManager.updateEnemyCount();
         player.AwardWisdomPoints(2);
         SetRoundPhase(RoundPhase.ShopPhase);
     }
