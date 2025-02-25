@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class Townhall : MonoBehaviour
+public class Lighthouse : MonoBehaviour
 {
     private const float STARTING_HEALTH = 100f;
     private float health;
@@ -45,7 +45,7 @@ public class Townhall : MonoBehaviour
         }
 
         currentDamage = damageValue;
-        Debug.Log("Current Enemies Attacking Townhall: " + enemiesDamaging.Count +  " at " + currentDamage + " DPS");
+        Debug.Log("Current Enemies Attacking Lighthouse: " + enemiesDamaging.Count +  " at " + currentDamage + " DPS");
 
     }
  
@@ -107,10 +107,10 @@ public class Townhall : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount * Time.deltaTime;
-        CheckTownhallDeath();
+        CheckLighthouseDeath();
     }
   
-    public void CheckTownhallDeath()
+    public void CheckLighthouseDeath()
     {
         if (health <= 0)
         {

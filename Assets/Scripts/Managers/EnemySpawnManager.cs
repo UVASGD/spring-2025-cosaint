@@ -20,7 +20,7 @@ public class EnemySpawnManager : MonoBehaviour
     private void Start()
     {
         Debug.Log($"Spawn Diameter: {spawnDiameter}");
-        areaCenter = GameObject.Find("Townhall").transform;
+        areaCenter = GameObject.Find("Lighthouse").transform;
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
 
         if (roundManager == null)

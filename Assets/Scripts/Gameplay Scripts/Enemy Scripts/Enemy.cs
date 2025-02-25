@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework.Internal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,21 +13,29 @@ public class Enemy : MonoBehaviour
     private Transform target;
     private bool isFrozen = false;
     private float freezeTimer = 0f;
+    private bool isBurned = false;
+    private float burnTimer = 0f;
+    private int burnTick = 0;
+    private float tickDuration = 0f; // for burn
+    private float burnDamage = 0f;
+    private bool isVulnerable = false;
+    private float vulnerableHealth = 0f;
+    private float vulnerableTimer = 0f;
     private bool isDoingDamage = false;
 
     private bool isSlowed = false;
     private float slowTimer = 0f;
     private GameObject townHall;
-    private Townhall townHallScript;
+    private Lighthouse lighthouse;
 
     private EnemySpawnManager enemySpawnManager;
 
     private void Start() 
     {
-        townHall = GameObject.Find("Townhall");
+        townHall = GameObject.Find("Lighthouse");
         enemySpawnManager = GameObject.Find("Enemy Spawn Manager").GetComponent<EnemySpawnManager>();
-        townHallScript = townHall.GetComponent<Townhall>();
-        target = townHall.transform;
+        lighthouse = lighthouse.GetComponent<Lighthouse>();
+        target = lighthouse.transform;
         SetRoundDamage();
     }
 
@@ -34,7 +43,8 @@ public class Enemy : MonoBehaviour
     {
         if (isFrozen){HandleFreeze();}
         if (isSlowed){HandleSlow();}
-
+        if (isBurned){HandleBurn();}
+        if (isVulnerable){HandleVulnerable();}
         Move();
     }
 
@@ -81,6 +91,15 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+
+        if (isVulnerable)
+        {
+            vulnerableHealth -= amount;
+            if(vulnerableHealth <= 0)
+            {
+                Die();
+            }
+        }
     }
 
     public void ApplyFreeze(float freezeTime)
@@ -91,7 +110,11 @@ public class Enemy : MonoBehaviour
             isDoingDamage = false;
             freezeTimer = freezeTime;
             speed = 0f;
-            townHallScript.RemoveFromEnemiesList(this);
+            lighthouse.RemoveFromEnemiesList(this);
+
+        } else {
+
+            freezeTimer = freezeTime;
         }
     }
 
@@ -104,7 +127,7 @@ public class Enemy : MonoBehaviour
             isFrozen = false;
             isDoingDamage = true;
             ResetSpeed();
-            townHallScript.AddToEnemiesList(this);
+            lighthouse.AddToEnemiesList(this);
         }
     }
 
@@ -128,6 +151,56 @@ public class Enemy : MonoBehaviour
             ResetSpeed();
         }
     }
+    public void ApplyBurn(float tickDur, float burnDmg, int numTicks)
+    {
+        if (!isBurned)
+        {
+            isBurned = true;
+            burnTick = numTicks;
+            tickDuration = tickDur;
+            burnTimer = tickDuration;
+            burnDamage = burnDmg;
+        }
+    }
+
+    private void HandleBurn()
+    {
+        burnTimer -= Time.deltaTime;
+
+        if (burnTimer <= 0)
+        {
+            TakeDamage(burnDamage);
+            
+            burnTimer += tickDuration;
+            burnTick--;
+
+            if(burnTick <= 0)
+            {
+                isBurned = false;
+            }
+        }
+    }
+
+    public void ApplyVulnerable(float vulnerableTime, float vulnerablePercentage)
+    {
+        if (!isVulnerable)
+        {
+            isVulnerable = true;
+            vulnerableHealth = health * vulnerablePercentage;
+            vulnerableTimer = vulnerableTime;
+        }
+    }
+
+    private void HandleVulnerable()
+    {
+        vulnerableTimer -= Time.deltaTime;
+
+        if (vulnerableTimer <= 0)
+        {
+            isVulnerable = false;
+            Debug.Log("Vulnerability end. Current Health equals " + health);
+        }
+    }
 
     public void SetDoingDamage(bool doingDamage)
     {
@@ -147,7 +220,7 @@ public class Enemy : MonoBehaviour
         // Ensures out of townhall range do not effect enemiesInRange set
         if (isDoingDamage)
         {
-            townHallScript.RemoveFromEnemiesList(this);
+            lighthouse.RemoveFromEnemiesList(this);
         }
         
         enemySpawnManager.DecrementEnemyCount();

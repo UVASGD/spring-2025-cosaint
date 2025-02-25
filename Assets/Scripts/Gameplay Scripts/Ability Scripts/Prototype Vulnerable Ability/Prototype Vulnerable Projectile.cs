@@ -1,10 +1,10 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ProtopyeProjectile : MonoBehaviour
+public class ProtopyeVulnerableProjectile : MonoBehaviour
 {
 
-    private float damage = 5f;
+    private float duration = 5f;
+    private float reductionPercentage = 0.1f;
 
     public float selfDestructTime = 4f;
 
@@ -13,22 +13,12 @@ public class ProtopyeProjectile : MonoBehaviour
         Destroy(this.gameObject, selfDestructTime);
     }
 
-    public float getDamage()
-    {
-        return damage;
-    }
-
-    public void setDamage(float damage)
-    {
-        this.damage = damage;
-    }
     private void OnCollisionEnter(Collision other) 
     {
         if (other.gameObject.tag == "Enemy")
         {
             Destroy(this.gameObject);
-            other.gameObject.GetComponent<Enemy>().TakeDamage(damage);
-            
+            other.gameObject.GetComponent<Enemy>().ApplyVulnerable(duration, reductionPercentage);
         } else if (other.gameObject.tag == "Ground" ||
                    other.gameObject.tag == "Townhall")
         {

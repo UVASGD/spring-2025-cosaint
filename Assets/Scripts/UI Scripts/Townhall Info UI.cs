@@ -1,22 +1,22 @@
 using TMPro;
 using UnityEngine;
 
-public class TownhallInfoUI : MonoBehaviour
+public class LighthouseInfoUI : MonoBehaviour
 {
 
-    Townhall townhall;
-    TextMeshProUGUI townhallHealthText;
+    Lighthouse lighthouse;
+    TextMeshProUGUI lighthouseHealthText;
     
     void Start()
     {
-        townhall = GameObject.Find("Townhall").GetComponent<Townhall>();
-        townhallHealthText = GameObject.Find("Townhall Health Text").GetComponent<TextMeshProUGUI>();
+        lighthouse = GameObject.Find("Lighthouse").GetComponent<Lighthouse>();
+        lighthouseHealthText = GameObject.Find("Lighthouse Health Text").GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
     {
-        string townhallHealth = ((int) townhall.GetHealth()).ToString();
-        townhallHealthText.text = "Townhall Health: " +  townhallHealth;
+        string lighthouseHealth = ((int) lighthouse.GetHealth()).ToString();
+        lighthouseHealthText.text = "Lighthouse Health: " +  lighthouseHealth;
     }
 
 }
