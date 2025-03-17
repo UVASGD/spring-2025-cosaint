@@ -5,10 +5,10 @@ using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
-    private float health = 100f;
-    private const float DEFAULT_SPEED = 3f;
+    protected float health = 100f;
+    protected const float DEFAULT_SPEED = 3f;
     private const float BASE_DAMAGE = 10f;
-    private float speed = DEFAULT_SPEED;
+    protected float speed = DEFAULT_SPEED;
     private float damage;
     private Transform target;
     private bool isFrozen = false;

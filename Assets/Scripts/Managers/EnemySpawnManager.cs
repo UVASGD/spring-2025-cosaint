@@ -4,12 +4,16 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab;           // The enemy to spawn
+    public GameObject tankEnemyPrefab;
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
     [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
     [SerializeField] private int enemiesPerRound = 5;
+    [SerializeField] private float tankEnemiesMultiplier = 1.1f; // Number of tank enemies to spawn
+    [SerializeField] private int tankEnemiesPerRound = 0;
     public float spawnDelay = 1f;           // Delay between spawns
 
+    private int tankEnemiesSpawned = 0; //Track # of tank enemies
     private int enemiesSpawned = 0;         // Track how many enemies are spawned
     private float spawnTimer = 0f;
     
@@ -32,7 +36,7 @@ public class EnemySpawnManager : MonoBehaviour
     private void Update()
     {
 
-        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && enemiesSpawned < enemiesPerRound)
+        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (enemiesSpawned < enemiesPerRound) && (tankEnemiesSpawned < tankEnemiesPerRound))
         {
             spawnTimer += Time.deltaTime;
 
@@ -41,9 +45,14 @@ public class EnemySpawnManager : MonoBehaviour
                 SpawnEnemy();
                 spawnTimer = 0f;
             }
+            if (spawnTimer >= spawnDelay)
+            {
+                SpawnTankEnemy();
+                spawnTimer = 0f;
+            }
         }
 
-        if (enemiesPerRound == enemiesSpawned)
+        if ((enemiesPerRound == enemiesSpawned) && (tankEnemiesPerRound == tankEnemiesSpawned))
         {
             roundManager.AdvancePhase();
             ResetSpawnedCount();
@@ -73,6 +82,24 @@ public class EnemySpawnManager : MonoBehaviour
         Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
     }
 
+    private void SpawnTankEnemy()
+    {
+        if(tankEnemyPrefab == null || areaCenter == null)
+        {
+            Debug.LogError("TankEnemyPrefab or AreaCenter not set!");
+            return;
+        }
+        // Get a random spawn position on the circumference of the circle
+        Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
+
+        // Spawn the tank enemy
+        Instantiate(tankEnemyPrefab, spawnPosition, Quaternion.identity);
+        currentEnemyCount++;
+        tankEnemiesSpawned++;
+        Debug.Log($"Tank enemy spawned at {spawnPosition}! Total: {tankEnemiesSpawned}/{tankEnemiesPerRound}");
+
+    }
+
     private Vector3 GetRandomPositionOnCircle(float diameter)
     {
         // Calculate radius from diameter
@@ -93,13 +120,15 @@ public class EnemySpawnManager : MonoBehaviour
     private void ResetSpawnedCount()
     {
         enemiesSpawned = 0;
+        tankEnemiesSpawned = 0;
         Debug.Log("Enemy spawn count reset for the next round.");
+        Debug.Log("Tank enemy spawn count reset for the next round.");
     }
 
     private bool AreAllEnemiesDefeated()
     {
-        // Check if there are no active instances of the enemyPrefab in the scene
-        return GameObject.FindGameObjectsWithTag(enemyPrefab.tag).Length == 0;
+        // Check if there are no active instances of the enemyPrefab or tank enemy in the scene
+        return (GameObject.FindGameObjectsWithTag(enemyPrefab.tag).Length == 0) && (GameObject.FindGameObjectsWithTag(tankEnemyPrefab.tag).Length == 0);
     }
 
     private void OnDrawGizmos()
@@ -126,6 +155,9 @@ public class EnemySpawnManager : MonoBehaviour
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);
         Debug.Log($"Enemies Per Round: {enemiesPerRound}");
+        tankEnemiesPerRound = (int)(tankEnemiesPerRound * tankEnemiesMultiplier);
+        Debug.Log($"Tank enemies Per Round: {tankEnemiesPerRound}");
+
     }
 
 }

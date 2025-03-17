@@ -1679,7 +1679,11 @@ PrefabInstance:
       value: Townhall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6320301419972642092, guid: 4d47d984d51b21241971d6e103d950c7, type: 3}
+    - {fileID: 6094984577667223744, guid: 4d47d984d51b21241971d6e103d950c7, type: 3}
+    - {fileID: 7452921128774966948, guid: 4d47d984d51b21241971d6e103d950c7, type: 3}
+    - {fileID: 176805115543327364, guid: 4d47d984d51b21241971d6e103d950c7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d47d984d51b21241971d6e103d950c7, type: 3}
