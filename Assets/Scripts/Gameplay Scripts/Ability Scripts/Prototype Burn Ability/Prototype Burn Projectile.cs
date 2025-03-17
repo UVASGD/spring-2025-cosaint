@@ -4,11 +4,15 @@ public class ProtopyeBurnProjectile : MonoBehaviour
 {
 
     private float tickDuration = 1;
-    private float burnDamage = 25;
-    private int numTicks = 2;
+    private float burnDamage = 3;
+    private int numTicks = 5;
     private float aoeRadius = 10;
 
     public float selfDestructTime = 4f;
+
+    public float TickDuration { get => tickDuration; set => tickDuration = value; }
+    public float BurnDamage { get => burnDamage; set => burnDamage = value; }
+    public int NumTicks { get => numTicks; set => numTicks = value; }
 
     public void Start() 
     {
@@ -29,7 +33,7 @@ public class ProtopyeBurnProjectile : MonoBehaviour
         }*/
 
         //AOE
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Townhall")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Lighthouse")
         {
             Vector3 pos = transform.position;
             Destroy(this.gameObject);

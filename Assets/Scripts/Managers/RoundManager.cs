@@ -113,7 +113,7 @@ public class RoundManager : MonoBehaviour
     public void GoToNextRound()
     {
         currentRound++;
-        enemySpawnManager.updateEnemyCount();
+        enemySpawnManager.UpdateEnemyCount();
         player.AwardWisdomPoints(2);
         SetRoundPhase(RoundPhase.ShopPhase);
     }

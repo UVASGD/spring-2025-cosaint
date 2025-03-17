@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class LibraryUIInteraction : MonoBehaviour
 {
-    private Transform libraryTransform;
+    [SerializeField] private Transform libraryTransform;
     [SerializeField] private float interactionRadius = 15f; // Radius for interaction
-    private TextMeshProUGUI libraryInteractionText; // Text element to display outside the library
+    [SerializeField] private TextMeshProUGUI libraryInteractionText; // Text element to display outside the library
     private Transform playerTransform; // Transform of the player
 
     private RoundManager roundManager;
@@ -15,8 +15,6 @@ public class LibraryUIInteraction : MonoBehaviour
     {
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
         playerTransform = GameObject.Find("Player").GetComponent<Transform>();
-        libraryTransform = GameObject.Find("Library").GetComponent<Transform>();
-        libraryInteractionText = GameObject.Find("Library Interaction Text").GetComponent<TextMeshProUGUI>();
         libraryInteractionText.enabled = false;
     }
 

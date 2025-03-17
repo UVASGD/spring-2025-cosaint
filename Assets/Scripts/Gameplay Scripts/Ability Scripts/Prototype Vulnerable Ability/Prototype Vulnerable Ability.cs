@@ -34,6 +34,7 @@ public class PrototypeVulnerableAbility : AbilityBase
 
     public override void UpgradeAbility()
     {
-
+        ProtopyeVulnerableProjectile vulnerableProjectile = projectilePrefab.GetComponent<ProtopyeVulnerableProjectile>();
+        vulnerableProjectile.Duration = vulnerableProjectile.Duration * 1.1f;
     }
 }

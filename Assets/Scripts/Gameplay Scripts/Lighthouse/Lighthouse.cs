@@ -49,6 +49,8 @@ public class Lighthouse : MonoBehaviour
 
     }
  
+    public float GetStartingHealth() => STARTING_HEALTH;
+
     public float GetHealth() => health;
 
     public void SetHealth(float newHealth)
@@ -123,5 +125,13 @@ public class Lighthouse : MonoBehaviour
         //Insert way to get rid of central thing, Perhaps add a particle effect/more elaborate than just destroy()
         RoundManager.SetRoundPhase(RoundManager.RoundPhase.GameOver);
         SceneManager.LoadScene("Game Over");
+    }
+
+    public void HealLighthouse (float amount) {
+        if (amount < 0) {
+            amount = 0;
+        }
+        
+        health += amount;
     }
 }

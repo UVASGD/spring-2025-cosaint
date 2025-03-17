@@ -47,7 +47,7 @@ public class RoundInfoUI : MonoBehaviour
         if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning ||
             roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
         {
-            int currentEnemyCount = enemySpawnManager.GetCurrentEnemyCount();
+            int currentEnemyCount = enemySpawnManager.GetAliveEnemiesCount();
             currentEnemyCountText.text = "Enemies: " + currentEnemyCount;
             currentEnemyCountText.enabled = true;
 

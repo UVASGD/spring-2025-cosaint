@@ -34,6 +34,10 @@ public class PrototypeBurnAbility : AbilityBase
 
     public override void UpgradeAbility()
     {
+        ProtopyeBurnProjectile burnProjectile = projectilePrefab.GetComponent<ProtopyeBurnProjectile>();
+        burnProjectile.TickDuration = burnProjectile.TickDuration * 0.9f;
+        burnProjectile.BurnDamage = burnProjectile.BurnDamage * 1.1f;
+        burnProjectile.NumTicks = burnProjectile.NumTicks + 1;
 
     }
 }

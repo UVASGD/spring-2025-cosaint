@@ -10,7 +10,7 @@ public class LibraryUI : MonoBehaviour
     private AbilityManager abilityManager;
     private Player player;
 
-    private LibraryUIInteraction libraryUIInteraction;
+    [SerializeField] private LibraryUIInteraction libraryUIInteraction;
 
     private int wisdomPoints;
 
@@ -27,7 +27,6 @@ public class LibraryUI : MonoBehaviour
         libraryActive = false;
         libraryUI = GameObject.Find("Library UI");
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
-        libraryUIInteraction = GameObject.Find("Library Interaction Text").GetComponent<LibraryUIInteraction>();
         abilityManager = GameObject.Find("Ability Manager").GetComponent<AbilityManager>();
         player = GameObject.Find("Player").GetComponent<Player>();
         wisdomPointsText = GameObject.Find("Wisdom Points Text").GetComponent<TextMeshProUGUI>();

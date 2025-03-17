@@ -4,85 +4,45 @@ using TMPro;
 
 public class AbilityUI : MonoBehaviour
 {
-    [Header("UI Settings")]
-    public Transform abilitiesContainer;
-    public GameObject abilityUIPrefab;
+    [Header("References")]
+    [SerializeField] private Image cooldownFill;
+    [SerializeField] private Image abilityIcon;
+    [SerializeField] private TextMeshProUGUI keybindText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI cooldownText;
 
-    private AbilityManager abilityManager;
-    private AbilityBase[] previousAbilities;
+    private AbilityBase trackedAbility;
 
-    void Start()
+    public void Initialize(AbilityBase ability)
     {
-        abilityManager = GameObject.Find("Ability Manager").GetComponent<AbilityManager>();
-        CreateAllAbilityDisplays();
+        trackedAbility = ability;
+        abilityIcon.sprite = ability.AbilityIcon;
+        keybindText.text = ability.activationKey.ToString();
+        UpdateDisplay();
     }
 
     void Update()
     {
-        // Only update if abilities list changes
-        if (AbilityListChanged())
-        {
-            ClearAbilityDisplays();
-            CreateAllAbilityDisplays();
-        }
-
-        UpdateCooldowns();
-    }
-
-    bool AbilityListChanged()
-    {
-        var currentAbilities = abilityManager.GetAbilities();
-        if (previousAbilities == null || currentAbilities.Count != previousAbilities.Length) 
-            return true;
-
-        for (int i = 0; i < currentAbilities.Count; i++)
-        {
-            if (currentAbilities[i] != previousAbilities[i]) 
-                return true;
-        }
+        if (trackedAbility == null) return;
         
-        return false;
+        float timeSinceActivation = Time.time - trackedAbility.lastActivatedTime;
+        float cooldownLeft = trackedAbility.cooldownTime - timeSinceActivation;
+        bool isOnCooldown = timeSinceActivation < trackedAbility.cooldownTime;
+
+        // Update cooldown visuals
+        cooldownFill.fillAmount = isOnCooldown ? 
+            Mathf.Clamp01(1 - (timeSinceActivation / trackedAbility.cooldownTime)) : 0;
+
+         cooldownText.text = isOnCooldown ? 
+             $"{Mathf.CeilToInt(cooldownLeft)}s" : "Ready!";
+
+        UpdateDisplay();
     }
 
-    void CreateAllAbilityDisplays()
+    void UpdateDisplay()
     {
-        var abilities = abilityManager.GetAbilities();
-        previousAbilities = abilities.ToArray();
-
-        foreach (var ability in abilities)
-        {
-            GameObject abilityUI = Instantiate(abilityUIPrefab, abilitiesContainer);
-            
-            // Set basic info
-            abilityUI.transform.Find("Icon").GetComponent<Image>().sprite = ability.AbilityIcon;
-            abilityUI.transform.Find("KeyText").GetComponent<TMP_Text>().text = ability.activationKey.ToString();
-        }
-    }
-
-    void UpdateCooldowns()
-    {
-        int childIndex = 0;
-        foreach (var ability in abilityManager.GetAbilities())
-        {
-            Transform abilityUI = abilitiesContainer.GetChild(childIndex);
-            float remainingCD = Mathf.Max(0, ability.lastActivatedTime + ability.cooldownTime - Time.time);
-            
-            // Update cooldown text
-            TMP_Text cdText = abilityUI.Find("CooldownText").GetComponent<TMP_Text>();
-            cdText.text = remainingCD > 0 ? Mathf.Ceil(remainingCD).ToString() : "";
-            
-            // Update level text
-            abilityUI.Find("LevelText").GetComponent<TMP_Text>().text = $"Lv.{ability.level}";
-            
-            childIndex++;
-        }
-    }
-
-    void ClearAbilityDisplays()
-    {
-        foreach (Transform child in abilitiesContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        levelText.text = $"Lv.{trackedAbility.level}";
+        abilityIcon.color = new Color(1, 1, 1, 
+            (trackedAbility.cooldownTime > Time.time - trackedAbility.lastActivatedTime) ? 0.5f : 1f);
     }
 }

@@ -34,6 +34,7 @@ public class Prototype2Ability : AbilityBase
 
     public override void UpgradeAbility()
     {
-
+        Protopye2Projectile freezeProjectile = projectilePrefab.GetComponent<Protopye2Projectile>();
+        freezeProjectile.FreezeTime = freezeProjectile.FreezeTime * 1.1f;
     }
 }

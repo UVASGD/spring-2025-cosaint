@@ -8,6 +8,8 @@ public class ProtopyeVulnerableProjectile : MonoBehaviour
 
     public float selfDestructTime = 4f;
 
+    public float Duration { get => duration; set => duration = value; }
+
     public void Start() 
     {
         Destroy(this.gameObject, selfDestructTime);
@@ -20,7 +22,7 @@ public class ProtopyeVulnerableProjectile : MonoBehaviour
             Destroy(this.gameObject);
             other.gameObject.GetComponent<Enemy>().ApplyVulnerable(duration, reductionPercentage);
         } else if (other.gameObject.tag == "Ground" ||
-                   other.gameObject.tag == "Townhall")
+                   other.gameObject.tag == "Lighthouse")
         {
             Destroy(this.gameObject);
         }
