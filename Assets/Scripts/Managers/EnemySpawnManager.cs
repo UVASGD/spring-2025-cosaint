@@ -11,7 +11,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
     [SerializeField] private int enemiesPerRound = 5;
     [SerializeField] private float tankEnemiesMultiplier = 1.1f; // Number of tank enemies to spawn
-    [SerializeField] private int tankEnemiesPerRound = 0;
+    [SerializeField] private int tankEnemiesPerRound = 0; //Only start spawning on round 3(in last method below) 
     public float spawnDelay = 1f;           // Delay between spawns
 
     private int tankEnemiesSpawned = 0; //Track # of tank enemies
@@ -37,7 +37,7 @@ public class EnemySpawnManager : MonoBehaviour
     private void Update()
     {
 
-        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (enemiesSpawned < enemiesPerRound) && (tankEnemiesSpawned < tankEnemiesPerRound))
+        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (enemiesSpawned < enemiesPerRound))
         {
             spawnTimer += Time.deltaTime;
 
@@ -46,6 +46,10 @@ public class EnemySpawnManager : MonoBehaviour
                 SpawnEnemy();
                 spawnTimer = 0f;
             }
+        }
+        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (tankEnemiesSpawned < tankEnemiesPerRound) && (enemiesSpawned == enemiesPerRound))
+        {
+            spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnDelay)
             {
                 SpawnTankEnemy();
@@ -96,11 +100,12 @@ public class EnemySpawnManager : MonoBehaviour
         // Get a random spawn position on the circumference of the circle
         Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
 
-        // Spawn the tank enemy
-        Instantiate(tankEnemyPrefab, spawnPosition, Quaternion.identity);
-        currentEnemyCount++;
+        // Spawn the tank enemy and track it in aliveEnemies
+        TankEnemy spawnedEnemy = Instantiate(tankEnemyPrefab, spawnPosition, Quaternion.identity).GetComponent<TankEnemy>();
+        aliveEnemies.Add(spawnedEnemy);
+
         tankEnemiesSpawned++;
-        Debug.Log($"Tank enemy spawned at {spawnPosition}! Total: {tankEnemiesSpawned}/{tankEnemiesPerRound}");
+        Debug.Log($"Enemy spawned at {spawnPosition}! Total: {tankEnemiesSpawned}/{tankEnemiesPerRound}");
 
     }
 
@@ -166,6 +171,9 @@ public class EnemySpawnManager : MonoBehaviour
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);
         Debug.Log($"Enemies Per Round: {enemiesPerRound}");
+        if (enemiesPerRound == 11.25) { //Only start spawning tank enemies on round 3
+            tankEnemiesPerRound = 1;
+        }
         tankEnemiesPerRound = (int)(tankEnemiesPerRound * tankEnemiesMultiplier);
         Debug.Log($"Tank enemies Per Round: {tankEnemiesPerRound}");
 
