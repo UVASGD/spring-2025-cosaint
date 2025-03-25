@@ -8,8 +8,9 @@ public class TankEnemy : Enemy
 
     private void Awake()
     {
+        maxHealth = 500f;
         health = 500f;
-        speed = DEFAULT_SPEED/2;
+        speed = DEFAULT_SPEED/4;
     }
 
 }

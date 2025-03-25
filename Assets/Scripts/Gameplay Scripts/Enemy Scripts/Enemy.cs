@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    protected float maxHealth = 100f;
-    protected float health = 100f;
+    protected float maxHealth = 10f;
+    protected float health = 10f;
     protected const float DEFAULT_SPEED = 3f;
     private const float BASE_DAMAGE = 10f;
     protected float speed = DEFAULT_SPEED;
@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
         lighthouse = townHall.GetComponent<Lighthouse>();
         target = lighthouse.transform;
         SetRoundDamage();
-        //healthText.text = health.ToString("#.0") + " / " + maxHealth.ToString("#.0");
+        healthText.text = health.ToString("#.0") + " / " + maxHealth.ToString("#.0");
     }
 
     private void Update()
@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour
     public virtual void TakeDamage(float amount)
     {
         health -= amount;
-
+        Debug.Log("Enemy took damage");
         if (isVulnerable)
         {
             vulnerableHealth -= amount;

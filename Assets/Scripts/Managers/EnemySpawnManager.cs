@@ -49,6 +49,9 @@ public class EnemySpawnManager : MonoBehaviour
         }
         if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (tankEnemiesSpawned < tankEnemiesPerRound) && (enemiesSpawned == enemiesPerRound))
         {
+            Debug.Log(tankEnemiesPerRound);
+            Debug.Log(tankEnemiesSpawned);
+            Debug.Log(tankEnemiesSpawned < tankEnemiesPerRound);
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnDelay)
             {

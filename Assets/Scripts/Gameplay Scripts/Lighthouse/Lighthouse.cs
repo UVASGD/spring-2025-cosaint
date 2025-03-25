@@ -68,6 +68,12 @@ public class Lighthouse : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
+        //Enemy enemy = null;
+
+        if (other.tag == "Tank Enemy") {
+            //enemy = other.GetComponent<Enemy>();
+            Debug.Log("Tank enemy entered");
+        }
 
         if (enemy != null)
         {
@@ -80,6 +86,14 @@ public class Lighthouse : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
+        //Enemy enemy = null;
+
+        if (other.tag == "Tank Enemy")
+        {
+            //enemy = other.GetComponent<Enemy>();
+
+            Debug.Log("Tank enemy exited");
+        }
 
         if (enemy != null)
         {
