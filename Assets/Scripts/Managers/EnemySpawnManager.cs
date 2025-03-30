@@ -8,10 +8,10 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject tankEnemyPrefab;
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
-    [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
+    [SerializeField] private float enemiesMultiplier = 1.2f;         // Number of enemies to spawn per round
     [SerializeField] private int enemiesPerRound = 5;
     [SerializeField] private float tankEnemiesMultiplier = 1.1f; // Number of tank enemies to spawn
-    [SerializeField] private int tankEnemiesPerRound = 0; //Only start spawning on round 3(in last method below) 
+    private int tankEnemiesPerRound = 0; //Only start spawning on round 3(in last method below) 
     public float spawnDelay = 1f;           // Delay between spawns
 
     private int tankEnemiesSpawned = 0; //Track # of tank enemies
@@ -22,8 +22,11 @@ public class EnemySpawnManager : MonoBehaviour
     private RoundManager roundManager;       // Reference to the round manager
     private HashSet<Enemy> aliveEnemies = new HashSet<Enemy>();
 
+    private int currentRound = 1; //Current round
+
     private void Start()
     {
+
         Debug.Log($"Spawn Diameter: {spawnDiameter}");
         areaCenter = GameObject.Find("Lighthouse").transform;
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
@@ -49,9 +52,8 @@ public class EnemySpawnManager : MonoBehaviour
         }
         if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && (tankEnemiesSpawned < tankEnemiesPerRound) && (enemiesSpawned == enemiesPerRound))
         {
-            Debug.Log(tankEnemiesPerRound);
-            Debug.Log(tankEnemiesSpawned);
-            Debug.Log(tankEnemiesSpawned < tankEnemiesPerRound);
+            
+
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnDelay)
             {
@@ -174,11 +176,14 @@ public class EnemySpawnManager : MonoBehaviour
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);
         Debug.Log($"Enemies Per Round: {enemiesPerRound}");
-        if (enemiesPerRound == 11.25) { //Only start spawning tank enemies on round 3
+        if (currentRound == 3) { //Only start spawning tank enemies on round 3
             tankEnemiesPerRound = 1;
         }
         tankEnemiesPerRound = (int)(tankEnemiesPerRound * tankEnemiesMultiplier);
         Debug.Log($"Tank enemies Per Round: {tankEnemiesPerRound}");
+
+        //Update current round
+        currentRound++;
 
     }
 

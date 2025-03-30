@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 {
     protected float maxHealth = 10f;
     protected float health = 10f;
-    protected const float DEFAULT_SPEED = 3f;
+    protected const float DEFAULT_SPEED = 2f;
     private const float BASE_DAMAGE = 10f;
     protected float speed = DEFAULT_SPEED;
     private float damage;

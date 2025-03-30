@@ -33,7 +33,7 @@ public class ProtopyeBurnProjectile : MonoBehaviour
         }*/
 
         //AOE
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Lighthouse")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Lighthouse" || other.gameObject.tag == "Tank Enemy")
         {
             Vector3 pos = transform.position;
             Destroy(this.gameObject);

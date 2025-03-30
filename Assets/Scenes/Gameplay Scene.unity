@@ -7892,10 +7892,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 6983215521479146805, guid: f7f01ff1656a85f40bd2b11413e2eb1a, type: 3}
   tankEnemyPrefab: {fileID: 3205432758777805895, guid: 9bfc85e0e390e1f48b6dccad0149b56a, type: 3}
   spawnDiameter: 50
-  enemiesMultiplier: 1.5
+  enemiesMultiplier: 1.2
   enemiesPerRound: 5
   tankEnemiesMultiplier: 1.1
-  tankEnemiesPerRound: 1
   spawnDelay: 3
 --- !u!4 &1019380935
 Transform:
