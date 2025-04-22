@@ -13,6 +13,8 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private Button buyButton;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button sellButton;
+    public ShopAbilitySO AbilitySO => currentAbilitySO;
+
 
     private ShopAbilitySO currentAbilitySO;
     private ShopManager shopManager;
@@ -61,7 +63,7 @@ public class ShopItemUI : MonoBehaviour
         // --- Update Level Text ---
         if (currentAbilitySO.isOneTimePurchase)
         {
-             levelText.text = "One-Time";
+            levelText.text = "One-Time";
         }
         else if (isOwned)
         {
@@ -102,7 +104,7 @@ public class ShopItemUI : MonoBehaviour
         {
             upgradeButton.interactable = currentWisdom >= upgradeCost;
             costText.text = $"Upgrade Cost: {upgradeCost} WP";
-             costText.gameObject.SetActive(true);
+            costText.gameObject.SetActive(true);
         }
 
         // SELL Button
@@ -110,24 +112,24 @@ public class ShopItemUI : MonoBehaviour
         sellButton.gameObject.SetActive(canSell); // Show if owned and not one-time
         if (canSell)
         {
-             sellButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Sell ({sellValue} WP)"; // Update sell button text
-            // No cost text needed when only sell is visible, hide it unless buy/upgrade are also shown
-             if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf)
-             {
-                 costText.gameObject.SetActive(false);
-             }
+            sellButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Sell ({sellValue} WP)"; // Update sell button text
+                                                                                                  // No cost text needed when only sell is visible, hide it unless buy/upgrade are also shown
+            if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf)
+            {
+                costText.gameObject.SetActive(false);
+            }
         }
 
-         // If nothing else sets the cost text, hide it
-         if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && !sellButton.gameObject.activeSelf)
-         {
-              costText.gameObject.SetActive(false);
-         }
-         // Handle the case where only the sell button is active
-         else if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && sellButton.gameObject.activeSelf)
-         {
-              costText.gameObject.SetActive(false); // Selling shows value on button
-         }
+        // If nothing else sets the cost text, hide it
+        if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && !sellButton.gameObject.activeSelf)
+        {
+            costText.gameObject.SetActive(false);
+        }
+        // Handle the case where only the sell button is active
+        else if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && sellButton.gameObject.activeSelf)
+        {
+            costText.gameObject.SetActive(false); // Selling shows value on button
+        }
 
 
     }
@@ -151,7 +153,7 @@ public class ShopItemUI : MonoBehaviour
 
     private void OnSellClicked()
     {
-         if (shopManager != null && ownedAbilityInstance != null) // Need the instance to sell
+        if (shopManager != null && ownedAbilityInstance != null) // Need the instance to sell
         {
             shopManager.TrySellAbility(ownedAbilityInstance, this);
         }

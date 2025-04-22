@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // Needed for LINQ methods like FirstOrDefault
+using System.Linq;
+using Unity.VisualScripting; // Needed for LINQ methods like FirstOrDefault
 
 public class AbilityManager : MonoBehaviour
 {
@@ -13,15 +14,16 @@ public class AbilityManager : MonoBehaviour
         // Keep LineRenderer setup if you use it
         if (lineRenderer != null)
         {
-             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-             lineRenderer.startWidth = 0.1f;
-             lineRenderer.endWidth = 0.1f;
-             lineRenderer.startColor = Color.red;
-             lineRenderer.endColor = Color.red;
-             lineRenderer.useWorldSpace = true;
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            lineRenderer.startWidth = 0.1f;
+            lineRenderer.endWidth = 0.1f;
+            lineRenderer.startColor = Color.red;
+            lineRenderer.endColor = Color.red;
+            lineRenderer.useWorldSpace = true;
         }
-        else {
-             Debug.LogWarning("LineRenderer not assigned in AbilityManager.");
+        else
+        {
+            Debug.LogWarning("LineRenderer not assigned in AbilityManager.");
         }
 
     }
@@ -37,10 +39,10 @@ public class AbilityManager : MonoBehaviour
         // Check input for all owned abilities
         foreach (var ability in ownedAbilities)
         {
-             // Only process input if the ability is actually learned (Level > 0)
-             // This check might be redundant if ownedAbilities only contains level > 0 items,
-             // but it's safe to keep. AbilityBase.CanActivate() also checks level.
-             if (ability.CurrentLevel <= 0) continue;
+            // Only process input if the ability is actually learned (Level > 0)
+            // This check might be redundant if ownedAbilities only contains level > 0 items,
+            // but it's safe to keep. AbilityBase.CanActivate() also checks level.
+            if (ability.CurrentLevel <= 0) continue;
 
             if (ability.abilityFireType == AbilityFireType.TAP)
             {
@@ -54,7 +56,7 @@ public class AbilityManager : MonoBehaviour
                 // Note: Basic hold logic, might need refinement
                 if (Input.GetKeyDown(ability.activationKey)) // Key Down starts the hold attempt
                 {
-                     ability.ToggleHold(AbilityHoldAction.HOLD_START);
+                    ability.ToggleHold(AbilityHoldAction.HOLD_START);
                 }
                 else if (Input.GetKey(ability.activationKey)) // Key Held continues (optional action)
                 {
@@ -80,8 +82,8 @@ public class AbilityManager : MonoBehaviour
     // Find an owned ability using the ScriptableObject reference
     public AbilityBase GetAbilityByShopData(ShopAbilitySO shopData)
     {
-         if (shopData == null) return null;
-         return ownedAbilities.FirstOrDefault(ability => ability.ShopData == shopData);
+        if (shopData == null) return null;
+        return ownedAbilities.FirstOrDefault(ability => ability.ShopData == shopData);
     }
 
 
@@ -93,9 +95,9 @@ public class AbilityManager : MonoBehaviour
         {
             ownedAbilities.Add(ability);
             // Pass LineRenderer if needed by the ability
-            if (lineRenderer != null)
+            if (ability.abilityFireType == AbilityFireType.HOLD && lineRenderer != null)
             {
-                 ability.SetLineRenderer(lineRenderer);
+                ability.SetLineRenderer(lineRenderer);
             }
 
             Debug.Log($"Ability '{ability.abilityName}' added to AbilityManager (Level {ability.CurrentLevel}).");
@@ -111,8 +113,8 @@ public class AbilityManager : MonoBehaviour
     {
         if (ownedAbilities.Contains(ability))
         {
-             // Call the ability's Sell method *before* removing, if it needs cleanup
-             ability.Sell();
+            // Call the ability's Sell method *before* removing, if it needs cleanup
+            ability.Sell();
 
             ownedAbilities.Remove(ability);
             Debug.Log($"Ability '{ability.abilityName}' removed from AbilityManager (Sold).");
