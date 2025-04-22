@@ -11945,11 +11945,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1448659036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cff99e7490759468c10a94ffbbd7e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 23dfe93dd6a0e418eaabd094a9500cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   libraryTransform: {fileID: 517024245}
-  interactionRadius: 6
+  interactionRadius: 15
   libraryInteractionText: {fileID: 1448659039}
 --- !u!114 &1448659039
 MonoBehaviour:
@@ -12354,7 +12354,8 @@ MonoBehaviour:
   abilityManager: {fileID: 855775220}
   player: {fileID: 17114789}
   shopPanel: {fileID: 0}
-  abilityManagerUI: {fileID: 0}
+  abilityManagerUI: {fileID: 1708538291}
+  defaultStartingAbility: {fileID: 11400000, guid: ce59234d2ea5c464badf6d995b08989b, type: 2}
 --- !u!4 &1535972107
 Transform:
   m_ObjectHideFlags: 0
@@ -15760,7 +15761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1948215918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2af995183e66c4bb7c2486131a25d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 746ad2ce80e3c461aada4c40cb98c039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   libraryUIPanel: {fileID: 1155960089}
