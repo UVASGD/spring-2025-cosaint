@@ -20,8 +20,6 @@ public class ShopManager : MonoBehaviour
     private List<ShopItemUI> spawnedUIItems = new List<ShopItemUI>();
     [SerializeField] private ShopAbilitySO defaultStartingAbility;
 
-    [SerializeField] private const int MAX_ABILITIES = 4;
-
     void Start()
     {
         // Ensure references are set
@@ -69,7 +67,7 @@ public class ShopManager : MonoBehaviour
                 }
 
                 RefreshShopItemStates(); // Make sure UI is synced
-                FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay();
+                FindFirstObjectByType<LibraryUI>()?.UpdateDisplays();
                 Debug.Log($"Granted default ability '{defaultStartingAbility.abilityName}' for free.");
             }
             else
@@ -130,7 +128,7 @@ public class ShopManager : MonoBehaviour
         if (abilityManager.GetAbilityByShopData(abilitySO) != null) return;
 
         // Limit amount of abilities at one time
-        if (abilityManager.OwnedAbilityCount >= MAX_ABILITIES)
+        if (!player.FreeSlots())
         {
             Debug.Log("Limiting amount of abilities at once");
             return;
@@ -149,7 +147,7 @@ public class ShopManager : MonoBehaviour
                 RefreshShopItemStates();
                 // --- UPDATED API CALL ---
                 // FindObjectOfType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Obsolete
-                FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Use new API
+                FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // Use new API
                 return;
             }
 
@@ -164,7 +162,7 @@ public class ShopManager : MonoBehaviour
                 RefreshShopItemStates();
                 // --- UPDATED API CALL ---
                 // FindObjectOfType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Obsolete
-                FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Use new API
+                FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // Use new API
             }
             else Debug.LogError($"Failed to create instance of {abilitySO.abilityClassName}.");
         }
@@ -190,7 +188,7 @@ public class ShopManager : MonoBehaviour
                 RefreshShopItemStates();
                 // --- UPDATED API CALL ---
                 // FindObjectOfType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Obsolete
-                FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Use new API
+                FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // Use new API
             }
             else
             {
@@ -215,7 +213,7 @@ public class ShopManager : MonoBehaviour
 
         requestingUI.SetOwnedAbilityInstance(null);
         RefreshShopItemStates();
-        FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay(); // Use new API
+        FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // Use new API
     }
 
     // IMPORTANT: Ensure this method correctly matches your AbilityBase/derived constructors

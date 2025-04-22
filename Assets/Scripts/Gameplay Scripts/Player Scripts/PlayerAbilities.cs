@@ -5,17 +5,17 @@ public class Player : MonoBehaviour
     public AbilityManager abilityManager { get; private set; }
 
     [SerializeField] private int wisdomPoints = 10;
+    private const int MAX_SLOTS = 4;
 
     void Awake()
     {
-        // Find the AbilityManager if not assigned
         if (abilityManager == null)
         {
             abilityManager = FindFirstObjectByType<AbilityManager>();
-             if (abilityManager == null)
-             {
-                 Debug.LogError("Player could not find AbilityManager!");
-             }
+            if (abilityManager == null)
+            {
+                Debug.LogError("Player could not find AbilityManager!");
+            }
         }
     }
 
@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
         {
             wisdomPoints += points;
             Debug.Log($"Awarded {points} WP. Total: {wisdomPoints}");
-             FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
-             FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay();
+            FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays();
         }
     }
 
@@ -44,8 +44,8 @@ public class Player : MonoBehaviour
             wisdomPoints -= amount;
             Debug.Log($"Spent {amount} WP. Remaining: {wisdomPoints}");
 
-             FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
-             FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay();
+            FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays();
             return true;
         }
         else
@@ -61,13 +61,25 @@ public class Player : MonoBehaviour
         {
             wisdomPoints += amount;
             Debug.Log($"Refunded {amount} WP. Total: {wisdomPoints}");
-             FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
-             FindFirstObjectByType<LibraryUI>()?.UpdateWisdomPointsDisplay();
+            FindFirstObjectByType<ShopManager>()?.RefreshShopItemStates();
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays();
         }
     }
 
-    public int GetWisdomPoints()
+    public int GetWisdomPoints() => wisdomPoints;
+
+    public bool FreeSlots()
     {
-        return wisdomPoints;
+        return abilityManager.OwnedAbilityCount < GetMaxSlots();
+    }
+
+    public int GetSlotsUsed()
+    {
+        return abilityManager.OwnedAbilityCount;
+    }
+
+    public int GetMaxSlots()
+    {
+        return MAX_SLOTS;
     }
 }

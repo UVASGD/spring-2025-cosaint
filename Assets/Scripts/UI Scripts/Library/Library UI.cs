@@ -7,6 +7,8 @@ public class LibraryUI : MonoBehaviour
     [SerializeField] private GameObject libraryUIPanel;
     [SerializeField] private LibraryUIInteraction libraryUIInteraction;
     [SerializeField] private TextMeshProUGUI wisdomPointsText;
+    [SerializeField] private TextMeshProUGUI slotsTakenText;
+    [SerializeField] private AbilityManager abilityManager;
 
     // References likely found automatically or assigned
     private Player player;
@@ -32,7 +34,7 @@ public class LibraryUI : MonoBehaviour
         else Debug.LogError("Library UI Panel reference not set!");
 
         // Initial Wisdom Points display
-        UpdateWisdomPointsDisplay();
+        UpdateDisplays();
 
     }
 
@@ -74,7 +76,7 @@ public class LibraryUI : MonoBehaviour
             Cursor.lockState = CursorLockMode.None; // Unlock the cursor
             Cursor.visible = true;                  // Make cursor visible
 
-            UpdateWisdomPointsDisplay();
+            UpdateDisplays();
             shopManager?.RefreshShopItemStates();
             Debug.Log("Library Opened");
         }
@@ -95,17 +97,23 @@ public class LibraryUI : MonoBehaviour
         }
     }
 
-    public void UpdateWisdomPointsDisplay()
+    public void UpdateDisplays()
     {
         if (!player) player = FindFirstObjectByType<Player>();
 
-        if (wisdomPointsText != null && player != null)
+        if (wisdomPointsText != null && slotsTakenText != null && player != null)
         {
             wisdomPointsText.text = $"Wisdom Points: {player.GetWisdomPoints()}";
+            slotsTakenText.text = $"Slots Taken: {player.GetSlotsUsed()} / {player.GetMaxSlots()}";
         }
-        else if (wisdomPointsText == null)
+        else
         {
-            Debug.LogWarning("Wisdom Points Text not assigned in LibraryUI."); // Reduce log spam
+            if (wisdomPointsText == null)
+                Debug.LogWarning("LibraryUI: Wisdom Points Text not assigned.");
+            if (slotsTakenText == null)
+                Debug.LogWarning("LibraryUI: Slots Taken Text not assigned.");
+            if (player == null)
+                Debug.LogWarning("LibraryUI: Player reference is missing.");
         }
     }
 }

@@ -90,17 +90,17 @@ public class AbilityManager : MonoBehaviour
     // Add a NEWLY PURCHASED ability instance
     public void AddAbility(AbilityBase ability)
     {
-        // Double-check it's not already added (ShopManager should prevent this)
-        if (GetAbilityByShopData(ability.ShopData) == null) // Check using SO reference
+        if (GetAbilityByShopData(ability.ShopData) == null)
         {
             ownedAbilities.Add(ability);
-            // Pass LineRenderer if needed by the ability
+
             if (ability.abilityFireType == AbilityFireType.HOLD && lineRenderer != null)
             {
                 ability.SetLineRenderer(lineRenderer);
             }
 
             Debug.Log($"Ability '{ability.abilityName}' added to AbilityManager (Level {ability.CurrentLevel}).");
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // 🔄 Auto-refresh UI
         }
         else
         {
@@ -108,22 +108,21 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    // Remove an ability when SOLD
     public void RemoveAbility(AbilityBase ability)
     {
         if (ownedAbilities.Contains(ability))
         {
-            // Call the ability's Sell method *before* removing, if it needs cleanup
             ability.Sell();
-
             ownedAbilities.Remove(ability);
             Debug.Log($"Ability '{ability.abilityName}' removed from AbilityManager (Sold).");
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // 🔄 Auto-refresh UI
         }
         else
         {
             Debug.LogWarning($"Ability {ability.abilityName} not found in the owned list for removal.");
         }
     }
+
 
     // Get a copy of the list of owned abilities
     public List<AbilityBase> GetOwnedAbilities()
@@ -133,5 +132,4 @@ public class AbilityManager : MonoBehaviour
 
     // Get amount of abilities owned
     public int OwnedAbilityCount => ownedAbilities.Count;
-
 }
