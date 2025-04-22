@@ -130,4 +130,8 @@ public class AbilityManager : MonoBehaviour
     {
         return new List<AbilityBase>(ownedAbilities); // Return a copy
     }
+
+    // Get amount of abilities owned
+    public int OwnedAbilityCount => ownedAbilities.Count;
+
 }

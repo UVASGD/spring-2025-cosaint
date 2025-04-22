@@ -20,6 +20,8 @@ public class ShopManager : MonoBehaviour
     private List<ShopItemUI> spawnedUIItems = new List<ShopItemUI>();
     [SerializeField] private ShopAbilitySO defaultStartingAbility;
 
+    [SerializeField] private const int MAX_ABILITIES = 4;
+
     void Start()
     {
         // Ensure references are set
@@ -126,6 +128,13 @@ public class ShopManager : MonoBehaviour
     {
         if (abilitySO == null || player == null || abilityManager == null) return;
         if (abilityManager.GetAbilityByShopData(abilitySO) != null) return;
+
+        // Limit amount of abilities at one time
+        if (abilityManager.OwnedAbilityCount >= MAX_ABILITIES)
+        {
+            Debug.Log("Limiting amount of abilities at once");
+            return;
+        }
 
         int cost = abilitySO.GetCostForLevel(1);
 
