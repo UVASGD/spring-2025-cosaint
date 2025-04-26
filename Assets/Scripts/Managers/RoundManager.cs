@@ -102,51 +102,7 @@ public class RoundManager : MonoBehaviour
     public float GetPhaseTimer() => phaseTimer;
     public int GetCurrentRound() => currentRound;
 
-    private IEnumerator FadeOutAndChangeMusic(AudioClip newClip, float fadeDuration = 1.0f)
-{
-    if (audioSource == null)
-    {
-        yield break;
-    }
 
-    float startVolume = audioSource.volume;
-
-    // Fade out
-    while (audioSource.volume > 0)
-    {
-        audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
-        yield return null;
-    }
-
-    // Switch clip
-    audioSource.Stop();
-    audioSource.clip = newClip;
-    audioSource.Play();
-
-    // Fade in
-    while (audioSource.volume < startVolume)
-    {
-        audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
-        yield return null;
-    }
-
-    // Ensure it's exactly back to the start volume
-    audioSource.volume = startVolume;
-}
-
-    private IEnumerator FadeOutAndStopMusic(float fadeDuration = 1.0f)
-    {
-        float startVolume = audioSource.volume;
-
-        while (audioSource.volume > 0)
-        {
-            audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
-            yield return null;
-        }
-
-        audioSource.Stop();
-        audioSource.volume = startVolume;
-    }
 
     private void PlayRandomShopMusic()
     {
@@ -161,8 +117,9 @@ public class RoundManager : MonoBehaviour
 
         if (selectedTrack != null)
         {
-            StartCoroutine(FadeOutAndChangeMusic(selectedTrack));
-            Debug.Log($"Fading into shop music track: {selectedTrack.name}");
+            audioSource.clip = selectedTrack;
+            audioSource.Play();
+            Debug.Log($"Playing shop music track: {selectedTrack.name}");
         }
     }
 
@@ -174,15 +131,16 @@ public class RoundManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(FadeOutAndChangeMusic(enemyPhaseMusic));
-        Debug.Log("Fading into enemy phase music");
+        audioSource.clip = enemyPhaseMusic;
+        audioSource.Play();
+        Debug.Log("Playing enemy phase music");
     }
 
     private void StopMusic()
     {
         if (audioSource != null && audioSource.isPlaying)
         {
-            StartCoroutine(FadeOutAndStopMusic());
+            audioSource.Stop();
         }
         else
         {
@@ -218,7 +176,6 @@ public class RoundManager : MonoBehaviour
                 break;
 
             case RoundPhase.RoundOver:
-            StopMusic();
                 phaseTimer = roundOverDuration;
                 StopMusic();
                 Debug.Log($"Round {currentRound} is over!");

@@ -9,6 +9,8 @@ public class AbilityManager : MonoBehaviour
     [SerializeField] private List<AbilityBase> ownedAbilities = new List<AbilityBase>();
     [SerializeField] private LineRenderer lineRenderer; // Keep for hold abilities if needed
 
+    [SerializeField] private AudioSource abilityAudioSource;
+
     void Awake()
     {
         // Keep LineRenderer setup if you use it
@@ -20,6 +22,14 @@ public class AbilityManager : MonoBehaviour
             lineRenderer.startColor = Color.red;
             lineRenderer.endColor = Color.red;
             lineRenderer.useWorldSpace = true;
+
+            if (abilityAudioSource == null)
+            {
+                abilityAudioSource = gameObject.AddComponent<AudioSource>();
+                abilityAudioSource.spatialBlend = 0f;
+            }
+
+
         }
         else
         {
@@ -99,8 +109,11 @@ public class AbilityManager : MonoBehaviour
                 ability.SetLineRenderer(lineRenderer);
             }
 
+            AudioClip defaultCastSound = Resources.Load<AudioClip>("CastSound"); // or however you're loading
+            ability.SetAudio(abilityAudioSource, defaultCastSound);
+
             Debug.Log($"Ability '{ability.abilityName}' added to AbilityManager (Level {ability.CurrentLevel}).");
-            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays(); // 🔄 Auto-refresh UI
+            FindFirstObjectByType<LibraryUI>()?.UpdateDisplays();
         }
         else
         {

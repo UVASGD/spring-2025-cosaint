@@ -17,6 +17,7 @@ public class PrototypeVulnerableAbility : AbilityBase
     // Called every activation
     protected override void Execute()
     {
+                PlayCastSound();
         if (projectilePrefab == null) {
             Debug.LogError($"{abilityName}: projectilePrefab is null!");
             return;

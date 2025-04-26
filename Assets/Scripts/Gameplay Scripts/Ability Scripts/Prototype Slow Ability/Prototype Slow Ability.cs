@@ -15,6 +15,7 @@ public class PrototypeSlowAbility : AbilityBase
 
     protected override void Execute()
     {
+                PlayCastSound();
         if (projectilePrefab == null) {
             Debug.LogError($"{abilityName}: projectilePrefab is null!");
             return;

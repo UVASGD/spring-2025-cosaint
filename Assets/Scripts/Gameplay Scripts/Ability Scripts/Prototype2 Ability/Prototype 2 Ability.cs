@@ -13,6 +13,7 @@ public class Prototype2Ability : AbilityBase
 
     protected override void Execute()
     {
+        PlayCastSound();
         Debug.Log($"{abilityName} activated!");
 
 

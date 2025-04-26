@@ -4,6 +4,9 @@ using UnityEngine;
 public enum AbilityFireType { TAP, HOLD }
 public enum AbilityHoldAction { HOLD_START, HOLD_CONTINUE, HOLD_END }
 
+
+
+
 // Abstract base class for all abilities
 public abstract class AbilityBase
 {
@@ -14,6 +17,10 @@ public abstract class AbilityBase
     public AbilityFireType abilityFireType { get; protected set; }
     protected float lastActivationTime = -Mathf.Infinity; // Time since last use
     protected LineRenderer lineRenderer; // For hold abilities, potentially
+
+    protected AudioClip castSound;
+    protected AudioSource abilityAudioSource;
+
 
     // --- Shop & Progression Properties ---
     public ShopAbilitySO ShopData { get; private set; } // Reference back to the SO
@@ -36,6 +43,22 @@ public abstract class AbilityBase
         this.TotalWisdomInvested = 0;
         this.AbilityIcon = shopData.icon; // Get icon from SO
     }
+
+    public void SetAudio(AudioSource source, AudioClip castClip)
+    {
+        abilityAudioSource = source;
+        castSound = castClip;
+    }
+
+    protected virtual void PlayCastSound()
+    {
+        if (abilityAudioSource != null && castSound != null)
+        {
+            abilityAudioSource.PlayOneShot(castSound);
+        }
+    }
+
+
 
     // --- Core Activation Logic ---
     public virtual bool CanActivate()

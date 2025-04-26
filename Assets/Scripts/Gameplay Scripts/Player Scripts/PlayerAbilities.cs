@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int wisdomPoints = 50;
     [SerializeField] private const int MAX_SLOTS = 10;
 
+
     void Awake()
     {
         if (abilityManager == null)
