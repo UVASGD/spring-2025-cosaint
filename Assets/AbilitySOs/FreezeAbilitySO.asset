@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Freeze Ability
   description: Freeze you enemies
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 44712365877857f4fa8fa21ce9f51849, type: 3}
   abilityPrefab: {fileID: 2223320114088956761, guid: 5dfa6262854db974da21bb620e6b4cf0, type: 3}
   abilityClassName: Prototype2Ability
   maxLevel: 10
