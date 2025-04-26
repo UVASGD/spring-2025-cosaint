@@ -12087,7 +12087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   libraryTransform: {fileID: 517024245}
-  interactionRadius: 15
+  interactionRadius: 7
   libraryInteractionText: {fileID: 1448659039}
 --- !u!114 &1448659039
 MonoBehaviour:
