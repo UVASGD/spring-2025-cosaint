@@ -9,6 +9,7 @@ TagManager:
   - Townhall
   - Lighthouse
   - EnemyAIPoint
+  - Projectile
   layers:
   - Default
   - TransparentFX

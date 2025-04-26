@@ -6,7 +6,7 @@ public class ProtopyeBurnProjectile : MonoBehaviour
     private float tickDuration = 1;
     private float burnDamage = 3;
     private int numTicks = 5;
-    private float aoeRadius = 10;
+    private float aoeRadius = 50;
 
     public float selfDestructTime = 4f;
 
@@ -14,13 +14,17 @@ public class ProtopyeBurnProjectile : MonoBehaviour
     public float BurnDamage { get => burnDamage; set => burnDamage = value; }
     public int NumTicks { get => numTicks; set => numTicks = value; }
 
-    public void Start() 
+    public void Start()
     {
         Destroy(this.gameObject, selfDestructTime);
     }
 
-    private void OnCollisionEnter(Collision other) 
+    private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.tag == "Projectile")
+        {
+            return;
+        }
         //non AOE
         /*if (other.gameObject.tag == "Enemy")
         {
@@ -32,7 +36,7 @@ public class ProtopyeBurnProjectile : MonoBehaviour
             Destroy(this.gameObject);
         }*/
         string tag = other.gameObject.tag;
-    
+
         //AOE
         if (EnemyTags.IsEnemyTag(tag) || tag == "Ground" || tag == "Lighthouse")
         {
@@ -42,8 +46,9 @@ public class ProtopyeBurnProjectile : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(pos, aoeRadius);
             foreach (var hitCollider in hitColliders)
             {
-                if(EnemyTags.IsEnemyTag(other.gameObject.tag)){
-                    hitCollider.gameObject.GetComponentInChildren<Enemy>().ApplyBurn(tickDuration, burnDamage, numTicks);
+                if (EnemyTags.IsEnemyTag(hitCollider.gameObject.tag))
+                {
+                    hitCollider.gameObject.GetComponent<Enemy>().ApplyBurn(tickDuration, burnDamage, numTicks);
                 }
             }
         }

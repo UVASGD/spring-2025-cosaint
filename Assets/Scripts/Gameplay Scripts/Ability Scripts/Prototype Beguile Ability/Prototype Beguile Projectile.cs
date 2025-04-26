@@ -10,7 +10,7 @@ public class ProtopyeBeguileProjectile : MonoBehaviour
 
     public float selfDestructTime = 4f;
 
-    public void Start() 
+    public void Start()
     {
         Destroy(this.gameObject, selfDestructTime);
     }
@@ -35,12 +35,12 @@ public class ProtopyeBeguileProjectile : MonoBehaviour
     {
         this.beguileDamage = beguileDamge;
     }
-    
-    private void OnCollisionEnter(Collision other) 
+
+    private void OnCollisionEnter(Collision other)
     {
         if (EnemyTags.IsEnemyTag(other.gameObject.tag))
         {
-            other.gameObject.GetComponentInChildren<Enemy>().ApplyBeguile(beguileTime, beguileDamage);
+            other.gameObject.GetComponentInChildren<Enemy>().ApplyBeguile(20f, beguileDamage);
             Destroy(this.gameObject);
         }
         else if (other.gameObject.tag == "Ground" ||

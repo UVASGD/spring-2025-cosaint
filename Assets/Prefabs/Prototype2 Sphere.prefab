@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3306182580519855457}
   m_Layer: 0
   m_Name: Prototype2 Sphere
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be1c03238e3e4e448a08b5e1e377cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selfDestructTime: 4
 --- !u!54 &3306182580519855457
 Rigidbody:
   m_ObjectHideFlags: 0

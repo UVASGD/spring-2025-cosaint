@@ -72,10 +72,10 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!isBeguiled)
-        {
-            Move();
-        }
+        // if (!isBeguiled)
+        // {
+        //     Move();
+        // }
 
 
         // If agent is close enough to attack and has moved at least once
@@ -140,7 +140,7 @@ public class Enemy : MonoBehaviour
 
         // Vector3 direction = (target.position - transform.position).normalized;
         // transform.position += direction * speed * Time.deltaTime;
-       //agent.destination = target.position;
+        //agent.destination = target.position;
     }
     protected virtual void MoveToEnemy(Enemy enemy)
     {
@@ -216,57 +216,67 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        Debug.Log("Beguiled");
         this.beguileDamage = beguileDamage;
         StartCoroutine(HandleBeguile(beguileTime));
     }
 
     private IEnumerator HandleBeguile(float beguileTime)
     {
-        
         isBeguiled = true;
         Enemy closestEnemy = FindClosestEnemy();
+        if (closestEnemy == null)
+        {
+            Debug.LogWarning("No closest enemy found at start of beguile.");
+            isBeguiled = false;
+            yield break;
+        }
 
         float beguileTimer = 0f;
+        float attackTimer = 0f;
+        isDoingDamage = false;
+
         while (isBeguiled)
         {
-            if (closestEnemy == null)
+            if (closestEnemy != null && enemySpawnManager.GetAliveEnemiesCount() > 1)
             {
-                if (enemySpawnManager.GetAliveEnemiesCount() > 1)
+                agent.SetDestination(closestEnemy.transform.position);
+
+                if (Vector3.Distance(gameObject.transform.position, closestEnemy.gameObject.transform.position) <= 2f)
                 {
-                    closestEnemy = FindClosestEnemy();
+                    enemyAnimator.SetBool("isAttacking", true);
+                    attackTimer += Time.deltaTime;
+                    if (attackTimer > 1f)
+                    {
+                        closestEnemy.TakeDamage(beguileDamage);
+                        attackTimer = 0f;
+                    }
                 }
                 else
                 {
-                    isBeguiled = false;
-                    yield break;
+                    enemyAnimator.SetBool("isAttacking", false);
                 }
             }
+            else
+            {
+                Debug.Log("Enemy count <= 1 or enemy is null ");
+                isBeguiled = false;
+                isDoingDamage = true;
+                yield break;
+            }
 
-            MoveToEnemy(closestEnemy);
             beguileTimer += Time.deltaTime;
-
             if (beguileTimer > beguileTime)
             {
                 isBeguiled = false;
+                enemyAnimator.SetBool("isAttacking", false);
                 agent.SetDestination(closestPoint.position);
-
+                isDoingDamage = true;
+                Debug.Log("Reverted destination");
+                yield break;
             }
+
             yield return null;
-        }
-    }
-
-    float beguileTimer = 0f;
-    void OnCollisionStay(Collision other)
-    {
-        Enemy enemy = other.gameObject.GetComponent<Enemy>();
-        if (isBeguiled && enemy == FindClosestEnemy())
-        {
-            beguileTimer += Time.deltaTime;
-            if (beguileTimer > 1f)
-            {
-                enemy.TakeDamage(beguileDamage);
-                beguileTimer = 0f;
-            }
         }
     }
 
@@ -453,8 +463,8 @@ public class Enemy : MonoBehaviour
         agent.isStopped = true;
         agent.enabled = false;
 
-        float animDuration = enemyAnimator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(animDuration);
+        // float animDuration = enemyAnimator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(5);
 
         Destroy(gameObject);
     }
@@ -478,5 +488,5 @@ public class Enemy : MonoBehaviour
         damage = f;
     }
 
-    
+
 }
