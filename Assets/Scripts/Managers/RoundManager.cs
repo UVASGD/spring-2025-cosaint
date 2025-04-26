@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class RoundManager : MonoBehaviour
 {
@@ -12,7 +13,12 @@ public class RoundManager : MonoBehaviour
     private bool RShiftIsPressed = false;
 
     [Header("Shop Music")]
-    [SerializeField] private AudioClip[] shopMusic;  // Array of 3 shop music soundtracks
+    [SerializeField] private AudioClip[] shopMusic;
+
+    [Header("Enemy Phase Music")]
+[SerializeField] private AudioClip enemyPhaseMusic;
+
+
     private AudioSource audioSource;
 
     private EnemySpawnManager enemySpawnManager;
@@ -96,6 +102,52 @@ public class RoundManager : MonoBehaviour
     public float GetPhaseTimer() => phaseTimer;
     public int GetCurrentRound() => currentRound;
 
+    private IEnumerator FadeOutAndChangeMusic(AudioClip newClip, float fadeDuration = 1.0f)
+{
+    if (audioSource == null)
+    {
+        yield break;
+    }
+
+    float startVolume = audioSource.volume;
+
+    // Fade out
+    while (audioSource.volume > 0)
+    {
+        audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+        yield return null;
+    }
+
+    // Switch clip
+    audioSource.Stop();
+    audioSource.clip = newClip;
+    audioSource.Play();
+
+    // Fade in
+    while (audioSource.volume < startVolume)
+    {
+        audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
+        yield return null;
+    }
+
+    // Ensure it's exactly back to the start volume
+    audioSource.volume = startVolume;
+}
+
+    private IEnumerator FadeOutAndStopMusic(float fadeDuration = 1.0f)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume;
+    }
+
     private void PlayRandomShopMusic()
     {
         if (shopMusic == null || shopMusic.Length == 0)
@@ -104,26 +156,33 @@ public class RoundManager : MonoBehaviour
             return;
         }
 
-        // Pick a random soundtrack from the array
         int randomIndex = Random.Range(0, shopMusic.Length);
         AudioClip selectedTrack = shopMusic[randomIndex];
-        
-        // Play the selected track
+
         if (selectedTrack != null)
         {
-            audioSource.clip = selectedTrack;
-            audioSource.Play();
-            Debug.Log($"Playing shop music track: {selectedTrack.name}");
+            StartCoroutine(FadeOutAndChangeMusic(selectedTrack));
+            Debug.Log($"Fading into shop music track: {selectedTrack.name}");
         }
+    }
+
+    private void PlayEnemyPhaseMusic()
+    {
+        if (enemyPhaseMusic == null)
+        {
+            Debug.LogWarning("No enemy phase music assigned!");
+            return;
+        }
+
+        StartCoroutine(FadeOutAndChangeMusic(enemyPhaseMusic));
+        Debug.Log("Fading into enemy phase music");
     }
 
     private void StopMusic()
     {
-
         if (audioSource != null && audioSource.isPlaying)
         {
-            audioSource.Stop();
-            Debug.Log("Shop music stopped!");
+            StartCoroutine(FadeOutAndStopMusic());
         }
         else
         {
@@ -151,6 +210,7 @@ public class RoundManager : MonoBehaviour
 
             case RoundPhase.EnemiesSpawning:
                 StopMusic();
+                PlayEnemyPhaseMusic();
                 break;
 
             case RoundPhase.EnemiesNoLongerSpawning:
@@ -158,7 +218,9 @@ public class RoundManager : MonoBehaviour
                 break;
 
             case RoundPhase.RoundOver:
+            StopMusic();
                 phaseTimer = roundOverDuration;
+                StopMusic();
                 Debug.Log($"Round {currentRound} is over!");
                 break;
 

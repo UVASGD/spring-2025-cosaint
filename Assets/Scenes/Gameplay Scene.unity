@@ -16807,6 +16807,7 @@ MonoBehaviour:
   shopMusic:
   - {fileID: 8300000, guid: f854e68316966c241b2600ccd4f2e2cc, type: 3}
   - {fileID: 8300000, guid: 09fb60d9f050c0d46ac78d118a480c81, type: 3}
+  enemyPhaseMusic: {fileID: 8300000, guid: 2caeffbb828ff3a44880a2dd1362fe72, type: 3}
 --- !u!4 &705181143
 Transform:
   m_ObjectHideFlags: 0
@@ -16832,8 +16833,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f854e68316966c241b2600ccd4f2e2cc, type: 3}
-  m_Resource: {fileID: 8300000, guid: f854e68316966c241b2600ccd4f2e2cc, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
