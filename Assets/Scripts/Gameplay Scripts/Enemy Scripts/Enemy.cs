@@ -79,8 +79,7 @@ public class Enemy : MonoBehaviour
 
 
         // If agent is close enough to attack and has moved at least once
-        if (
-            !agent.pathPending &&
+        if (!agent.pathPending &&
             agent.remainingDistance <= agent.stoppingDistance &&
             (!agent.hasPath || agent.velocity.sqrMagnitude < 0.1f)
         )
