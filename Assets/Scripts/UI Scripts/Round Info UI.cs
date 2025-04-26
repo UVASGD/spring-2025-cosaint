@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoundInfoUI : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class RoundInfoUI : MonoBehaviour
 
     TextMeshProUGUI currentEnemyCountText;*/
 
+    [SerializeField] Lighthouse lighthouse;
+
+    [SerializeField] RectMask2D mask;
+
     RoundManager roundManager;
 
     EnemySpawnManager enemySpawnManager;
@@ -20,7 +25,7 @@ public class RoundInfoUI : MonoBehaviour
     TextMeshProUGUI RightShiftText;
 
     private string[] textFields = new string[3];
-
+    private float lighthouseMaxHealth;
 
 
     private void Start() 
@@ -35,6 +40,7 @@ public class RoundInfoUI : MonoBehaviour
         textFields[1] = "Enemies: 0";
         textFields[2] = "";
         HUDtext.text = textFields[0] + "\n" + textFields[1] + "\n" + textFields[2];
+        lighthouseMaxHealth = lighthouse.GetStartingHealth();
         /*timerText = GameObject.Find("Timer Text").GetComponent<TextMeshProUGUI>();
         phaseText = GameObject.Find("Round Phase Text").GetComponent<TextMeshProUGUI>();
         currentRoundText = GameObject.Find("Current Round Text").GetComponent<TextMeshProUGUI>();
@@ -81,6 +87,9 @@ public class RoundInfoUI : MonoBehaviour
         textFields[0] = "Round: " + currentRoundNumber;
 
         HUDtext.text = textFields[0] + "\n" + textFields[1] + "\n" + textFields[2];
-        Debug.Log(textFields[0] + "\n" + textFields[1] + "\n" + textFields[2]);
+
+        var padding = mask.padding;
+        padding.z = ((lighthouseMaxHealth - lighthouse.GetHealth()) / lighthouseMaxHealth) * 328;
+        mask.padding = padding;
     }
 }
