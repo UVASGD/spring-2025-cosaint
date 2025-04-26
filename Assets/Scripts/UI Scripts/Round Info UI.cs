@@ -3,17 +3,23 @@ using UnityEngine;
 
 public class RoundInfoUI : MonoBehaviour
 {
-    TextMeshProUGUI timerText;
+    /*TextMeshProUGUI timerText;
 
-    TextMeshProUGUI phaseText;
+    //TextMeshProUGUI phaseText;
 
     TextMeshProUGUI currentRoundText;
 
-    TextMeshProUGUI currentEnemyCountText;
+    TextMeshProUGUI currentEnemyCountText;*/
 
     RoundManager roundManager;
 
     EnemySpawnManager enemySpawnManager;
+
+    TextMeshProUGUI HUDtext;
+
+    TextMeshProUGUI RightShiftText;
+
+    private string[] textFields = new string[3];
 
 
 
@@ -21,41 +27,60 @@ public class RoundInfoUI : MonoBehaviour
     {
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
         enemySpawnManager = GameObject.Find("Enemy Spawn Manager").GetComponent<EnemySpawnManager>();
-        timerText = GameObject.Find("Timer Text").GetComponent<TextMeshProUGUI>();
+        HUDtext = GameObject.Find("HUD Text").GetComponent<TextMeshProUGUI>();
+        RightShiftText = GameObject.Find("Right Shift Text").GetComponent <TextMeshProUGUI>();
+        RightShiftText.enabled = false;
+
+        textFields[0] = "Round: 0";
+        textFields[1] = "Enemies: 0";
+        textFields[2] = "";
+        HUDtext.text = textFields[0] + "\n" + textFields[1] + "\n" + textFields[2];
+        /*timerText = GameObject.Find("Timer Text").GetComponent<TextMeshProUGUI>();
         phaseText = GameObject.Find("Round Phase Text").GetComponent<TextMeshProUGUI>();
         currentRoundText = GameObject.Find("Current Round Text").GetComponent<TextMeshProUGUI>();
-        currentEnemyCountText = GameObject.Find("Current Enemy Count Text").GetComponent<TextMeshProUGUI>();
+        currentEnemyCountText = GameObject.Find("Current Enemy Count Text").GetComponent<TextMeshProUGUI>();*/
     }
 
     private void Update() 
     {
-        timerText.enabled = false;
-        currentEnemyCountText.enabled = false;
-
         if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase ||
             roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.RoundOver)
         {
             float currentTimer = roundManager.GetPhaseTimer();
-            timerText.text = "Time Left: " + (int) currentTimer;
+            textFields[2] = "Time Left: " + (int) currentTimer;
             if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase)
             {
-                timerText.text += "\nHold Right Shift to Begin Round";
+                RightShiftText.enabled = true;
             }
-            timerText.enabled = true;
+            else 
+            { 
+                RightShiftText.enabled = false; 
+            }
+        }
+        else
+        {
+            textFields[2] = "";
+            RightShiftText.enabled = false;
         }
 
         if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning ||
             roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
         {
             int currentEnemyCount = enemySpawnManager.GetAliveEnemiesCount();
-            currentEnemyCountText.text = "Enemies: " + currentEnemyCount;
-            currentEnemyCountText.enabled = true;
+            textFields[1] = "Enemies: " + currentEnemyCount;
 
         }
-        string currentPhase = roundManager.GetCurrentRoundPhase().ToString();
-        phaseText.text = "Phase: " + currentPhase;
+        else
+        {
+            textFields[1] = "Enemies: 0";
+        }
+        //string currentPhase = roundManager.GetCurrentRoundPhase().ToString();
+        //phaseText.text = "Phase: " + currentPhase;
 
         string currentRoundNumber = roundManager.GetCurrentRound().ToString();
-        currentRoundText.text = "Round: " + currentRoundNumber;
+        textFields[0] = "Round: " + currentRoundNumber;
+
+        HUDtext.text = textFields[0] + "\n" + textFields[1] + "\n" + textFields[2];
+        Debug.Log(textFields[0] + "\n" + textFields[1] + "\n" + textFields[2]);
     }
 }

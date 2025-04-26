@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LibraryUIInteraction : MonoBehaviour
 {
     [SerializeField] private Transform libraryTransform;
     [SerializeField] private float interactionRadius = 15f; // Radius for interaction
     [SerializeField] private TextMeshProUGUI libraryInteractionText; // Text element to display outside the library
+    [SerializeField] private Image libraryInteractionBG; 
     private Transform playerTransform; // Transform of the player
 
     private RoundManager roundManager;
@@ -16,6 +18,7 @@ public class LibraryUIInteraction : MonoBehaviour
         roundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
         playerTransform = GameObject.Find("Player").GetComponent<Transform>();
         libraryInteractionText.enabled = false;
+        libraryInteractionBG.enabled = false;
     }
 
     void Update()
@@ -24,6 +27,7 @@ public class LibraryUIInteraction : MonoBehaviour
         if (roundManager.GetCurrentRoundPhase() != RoundManager.RoundPhase.ShopPhase)
         {
             libraryInteractionText.enabled = false;
+            libraryInteractionBG.enabled = false;
         }
 
         float distanceToLibrary = Vector3.Distance(playerTransform.position, libraryTransform.position);
@@ -42,6 +46,7 @@ public class LibraryUIInteraction : MonoBehaviour
     {
         isPlayerInRange = true;
         libraryInteractionText.enabled = true;
+        libraryInteractionBG.enabled = true;
         Debug.Log("Player entered the library range.");
     }
 
@@ -49,6 +54,7 @@ public class LibraryUIInteraction : MonoBehaviour
     {
         isPlayerInRange = false;
         libraryInteractionText.enabled = false;
+        libraryInteractionBG.enabled = false;
         Debug.Log("Player exited the library range.");
     }
 
