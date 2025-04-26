@@ -8539,6 +8539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3023320164636877601, guid: 2edd0c02387b05e4ea2880f6df6dba07, type: 3}
+  tankEnemyPrefab: {fileID: 1002415271649614476, guid: 0603cc47653fb6a45bcc54c3b987281b, type: 3}
   spawnDiameter: 50
   enemiesMultiplier: 1.5
   enemiesPerRound: 5

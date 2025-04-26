@@ -5,6 +5,10 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab;           // The enemy to spawn
+
+    public GameObject tankEnemyPrefab;
+
+
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
     [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
@@ -40,6 +44,8 @@ public class EnemySpawnManager : MonoBehaviour
             if (spawnTimer >= spawnDelay)
             {
                 SpawnEnemy();
+                SpawnTankEnemy();
+
                 spawnTimer = 0f;
             }
         }
@@ -70,7 +76,29 @@ public class EnemySpawnManager : MonoBehaviour
 
 
         // Spawn the enemy and track it in aliveEnemies
-        Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity).GetComponent<Enemy>();
+        Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<Enemy>();
+        aliveEnemies.Add(spawnedEnemy);
+
+        enemiesSpawned++;
+        Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
+    }
+
+
+    private void SpawnTankEnemy()
+    {
+        if (enemyPrefab == null || areaCenter == null)
+        {
+            Debug.LogError("TankEnemyPrefab or AreaCenter not set!");
+            return;
+        }
+
+        // Get a random spawn position on the circumference of the circle
+        Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
+
+
+
+        // Spawn the enemy and track it in aliveEnemies
+        Enemy spawnedEnemy = Instantiate(tankEnemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<TankEnemy>();
         aliveEnemies.Add(spawnedEnemy);
 
         enemiesSpawned++;
