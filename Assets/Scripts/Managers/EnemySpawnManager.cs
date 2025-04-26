@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,7 +21,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     private int enemiesSpawned = 0;         // Track how many enemies are spawned
     private float spawnTimer = 0f;
-    
+
     private bool allEnemiesDefeated;          // Timer for delay between spawns
     private RoundManager roundManager;       // Reference to the round manager
     private HashSet<Enemy> aliveEnemies = new HashSet<Enemy>();
@@ -143,10 +144,10 @@ public class EnemySpawnManager : MonoBehaviour
 
         // Spawn the enemy and track it in aliveEnemies
         Enemy spawnedEnemy = Instantiate(runnerEnemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<RunnerEnemy>();
+
         aliveEnemies.Add(spawnedEnemy);
 
         enemiesSpawned++;
-        Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
     }
 
     private Vector3 GetRandomPositionOnCircle(float diameter)
@@ -204,7 +205,7 @@ public class EnemySpawnManager : MonoBehaviour
             Gizmos.DrawWireSphere(areaCenter.position, spawnDiameter / 2);
         }
     }
-    
+
     public void UpdateEnemyCount()
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);

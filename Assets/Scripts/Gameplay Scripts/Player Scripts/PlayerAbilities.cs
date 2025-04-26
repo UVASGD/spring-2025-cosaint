@@ -4,8 +4,8 @@ public class Player : MonoBehaviour
 {
     public AbilityManager abilityManager { get; private set; }
 
-    [SerializeField] private int wisdomPoints = 10;
-    private const int MAX_SLOTS = 4;
+    [SerializeField] private int wisdomPoints = 50;
+    [SerializeField] private const int MAX_SLOTS = 10;
 
     void Awake()
     {
