@@ -34,7 +34,7 @@ public class AbilityUI : MonoBehaviour
             Mathf.Clamp01(1 - (timeSinceActivation / trackedAbility.cooldown)) : 0;
 
          cooldownText.text = isOnCooldown ? 
-             $"{Mathf.CeilToInt(cooldownLeft)}s" : "Ready!";
+             $"{Mathf.CeilToInt(cooldownLeft)}s" : "";
 
         UpdateDisplay();
     }
@@ -43,7 +43,7 @@ public class AbilityUI : MonoBehaviour
     {
         levelText.text = $"Lv.{trackedAbility.CurrentLevel}";
         abilityIcon.color = new Color(1, 1, 1, 
-            (trackedAbility.cooldown > Time.time - trackedAbility.LastActivationTime) ? 0.5f : 1f);
+            (trackedAbility.cooldown > Time.time - trackedAbility.LastActivationTime) ? 0.2f : 1f);
 
     }
 }
