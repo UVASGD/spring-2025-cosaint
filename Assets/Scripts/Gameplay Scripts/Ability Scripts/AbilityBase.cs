@@ -5,7 +5,7 @@ public enum AbilityFireType { TAP, HOLD }
 public enum AbilityHoldAction { HOLD_START, HOLD_CONTINUE, HOLD_END }
 
 // Abstract base class for all abilities
-public abstract class AbilityBase
+public abstract class AbilityBase : MonoBehaviour
 {
     // --- Core Ability Properties ---
     public string abilityName { get; protected set; }
@@ -19,6 +19,9 @@ public abstract class AbilityBase
     public ShopAbilitySO ShopData { get; private set; } // Reference back to the SO
     public int CurrentLevel { get; protected set; } = 0; // 0 means not owned/learned yet
     public int TotalWisdomInvested { get; protected set; } = 0; // Tracks total cost spent
+    protected ShopAbilitySO shopData;
+
+    public virtual Sprite AbilityIcon => shopData.icon; // Assuming the icon is in the SO
 
     // --- Constructor ---
     // We now also pass the ShopAbilitySO reference
