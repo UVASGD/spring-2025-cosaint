@@ -11,6 +11,10 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private float roundOverDuration = 10f;
     private bool RShiftIsPressed = false;
 
+    [Header("Shop Music")]
+    [SerializeField] private AudioClip[] shopMusic;  // Array of 3 shop music soundtracks
+    private AudioSource audioSource;
+
     private EnemySpawnManager enemySpawnManager;
 
     public enum RoundPhase
@@ -25,14 +29,17 @@ public class RoundManager : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        SetRoundPhase(RoundPhase.ShopPhase);
         currentRound = 1;
         enemySpawnManager = GameObject.Find("Enemy Spawn Manager").GetComponent<EnemySpawnManager>();
+        
 
         if (enemySpawnManager == null)
         {
             Debug.LogError("EnemySpawnManager not assigned!");
         }
+        
+
+        SetRoundPhase(RoundPhase.ShopPhase);
     }
 
     private void Awake()
@@ -45,11 +52,18 @@ public class RoundManager : MonoBehaviour
         {
             Instance = this;
         }
+        
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.loop = true;
+        }
     }
 
     private void Update()
     {
-
         if (roundPhase == RoundPhase.RoundOver || RShiftIsPressed)
         {
             phaseTimer -= Time.deltaTime;
@@ -82,17 +96,61 @@ public class RoundManager : MonoBehaviour
     public float GetPhaseTimer() => phaseTimer;
     public int GetCurrentRound() => currentRound;
 
+    private void PlayRandomShopMusic()
+    {
+        if (shopMusic == null || shopMusic.Length == 0)
+        {
+            Debug.LogWarning("No shop music assigned!");
+            return;
+        }
+
+        // Pick a random soundtrack from the array
+        int randomIndex = Random.Range(0, shopMusic.Length);
+        AudioClip selectedTrack = shopMusic[randomIndex];
+        
+        // Play the selected track
+        if (selectedTrack != null)
+        {
+            audioSource.clip = selectedTrack;
+            audioSource.Play();
+            Debug.Log($"Playing shop music track: {selectedTrack.name}");
+        }
+    }
+
+    private void StopMusic()
+    {
+
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+            Debug.Log("Shop music stopped!");
+        }
+        else
+        {
+            Debug.LogWarning("Tried to stop music but AudioSource is null or not playing");
+        }
+    }
+
     public void SetRoundPhase(RoundPhase roundPhase)
     {
+        RoundPhase previousPhase = this.roundPhase;
         this.roundPhase = roundPhase;
+
+        if (previousPhase == RoundPhase.ShopPhase && roundPhase != RoundPhase.ShopPhase)
+        {
+            StopMusic();
+            Debug.Log("Shop music stopped");
+        }
 
         switch (roundPhase)
         {
             case RoundPhase.ShopPhase:
                 phaseTimer = shopPhaseDuration;
+                PlayRandomShopMusic();
                 break;
 
             case RoundPhase.EnemiesSpawning:
+                StopMusic();
                 break;
 
             case RoundPhase.EnemiesNoLongerSpawning:
