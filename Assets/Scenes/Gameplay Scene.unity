@@ -8676,6 +8676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3023320164636877601, guid: 2edd0c02387b05e4ea2880f6df6dba07, type: 3}
   tankEnemyPrefab: {fileID: 1002415271649614476, guid: 0603cc47653fb6a45bcc54c3b987281b, type: 3}
+  runnerEnemyPrefab: {fileID: 0}
   spawnDiameter: 50
   enemiesMultiplier: 1.5
   enemiesPerRound: 2
@@ -12279,6 +12280,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0239be5e6deffbc4e94b72011ac6776e, type: 3}
   m_PrefabInstance: {fileID: 1666080018}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1514871938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20.364063
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -120.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_Name
+      value: walls
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
 --- !u!1 &1516060839 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -506090165987129455, guid: 9af51cbcc4880914cbdfd137f7cf01ff, type: 3}
@@ -17119,3 +17177,4 @@ SceneRoots:
   - {fileID: 658017434}
   - {fileID: 878915516}
   - {fileID: 786627026}
+  - {fileID: 1514871938}
