@@ -36,8 +36,6 @@ public class AbilityManagerUI : MonoBehaviour
 
     void CreateAbilityDisplays()
     {
-
-    
         if (abilityUIPrefab == null)
         {
             Debug.LogError("AbilityUIPrefab is not assigned!");
@@ -50,6 +48,12 @@ public class AbilityManagerUI : MonoBehaviour
             return;
         }
 
+        // --- Fix: Clear old UI elements before creating new ones ---
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         Debug.Log($"Creating UI for {abilityManager.GetOwnedAbilities().Count} abilities");
 
         foreach (AbilityBase ability in abilityManager.GetOwnedAbilities())
@@ -59,13 +63,14 @@ public class AbilityManagerUI : MonoBehaviour
         }
     }
 
+
     public void RefreshUI()
     {
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
-        
+
         // Recreate UI
         CreateAbilityDisplays();
     }

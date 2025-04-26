@@ -19,6 +19,9 @@ public abstract class AbilityBase
     public ShopAbilitySO ShopData { get; private set; } // Reference back to the SO
     public int CurrentLevel { get; protected set; } = 0; // 0 means not owned/learned yet
     public int TotalWisdomInvested { get; protected set; } = 0; // Tracks total cost spent
+    protected ShopAbilitySO shopData;
+    public Sprite AbilityIcon { get; protected set; } = null; // Icon for the ability
+
 
     // --- Constructor ---
     // We now also pass the ShopAbilitySO reference
@@ -31,6 +34,7 @@ public abstract class AbilityBase
         this.abilityFireType = fireType;
         this.CurrentLevel = 0; // Start at level 0 (not owned)
         this.TotalWisdomInvested = 0;
+        this.AbilityIcon = shopData.icon; // Get icon from SO
     }
 
     // --- Core Activation Logic ---

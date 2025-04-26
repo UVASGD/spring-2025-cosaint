@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Beguile Ability
   description: Temporarily make enemies attach each other!
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 0c03d4c991e3f7a4f8227bd19287507b, type: 3}
   abilityPrefab: {fileID: 2223320114088956761, guid: 239331d466fd046b886b5413f6d141c0, type: 3}
   abilityClassName: PrototypeBeguileAbility
   maxLevel: 5

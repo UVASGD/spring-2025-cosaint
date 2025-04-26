@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 522400972260877193}
   m_Layer: 0
   m_Name: Prototype Vulnerable Sphere
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

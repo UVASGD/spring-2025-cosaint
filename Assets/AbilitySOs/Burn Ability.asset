@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Burn Ability
   description: Does burn AOE
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 7bbee03598ea23849aa4d897740cde90, type: 3}
   abilityPrefab: {fileID: 2223320114088956761, guid: 1d3f60e6dbd7a074eaf3e0fcc16f4c39, type: 3}
   abilityClassName: PrototypeBurnAbility
   maxLevel: 5

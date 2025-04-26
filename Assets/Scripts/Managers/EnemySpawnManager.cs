@@ -1,10 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawnManager : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab;           // The enemy to spawn
+
+    public GameObject tankEnemyPrefab;
+
+    public GameObject runnerEnemyPrefab;
+
+
     private Transform areaCenter;          
     public float spawnDiameter = 10f;       // Diameter of the spawn circle
     [SerializeField] private float enemiesMultiplier = 1.5f;         // Number of enemies to spawn per round
@@ -13,7 +21,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     private int enemiesSpawned = 0;         // Track how many enemies are spawned
     private float spawnTimer = 0f;
-    
+
     private bool allEnemiesDefeated;          // Timer for delay between spawns
     private RoundManager roundManager;       // Reference to the round manager
     private HashSet<Enemy> aliveEnemies = new HashSet<Enemy>();
@@ -40,6 +48,8 @@ public class EnemySpawnManager : MonoBehaviour
             if (spawnTimer >= spawnDelay)
             {
                 SpawnEnemy();
+                SpawnTankEnemy();
+                //SpawnRunnerEnemy();
                 spawnTimer = 0f;
             }
         }
@@ -66,15 +76,78 @@ public class EnemySpawnManager : MonoBehaviour
 
         // Get a random spawn position on the circumference of the circle
         Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
+        NavMeshHit hit;
 
+        if (NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas)) {
+            spawnPosition = hit.position;
+        } else {
+            Debug.LogWarning("No NavMesh nearby spawn point! Skipping enemy spawn.");
+            return;
+        }
 
 
         // Spawn the enemy and track it in aliveEnemies
-        Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity).GetComponent<Enemy>();
+        Enemy spawnedEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<Enemy>();
         aliveEnemies.Add(spawnedEnemy);
 
         enemiesSpawned++;
         Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
+    }
+
+
+    private void SpawnTankEnemy()
+    {
+        if (enemyPrefab == null || areaCenter == null)
+        {
+            Debug.LogError("TankEnemyPrefab or AreaCenter not set!");
+            return;
+        }
+
+        // Get a random spawn position on the circumference of the circle
+        Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas)) {
+            spawnPosition = hit.position;
+        } else {
+            Debug.LogWarning("No NavMesh nearby spawn point! Skipping enemy spawn.");
+            return;
+        }
+
+        // Spawn the enemy and track it in aliveEnemies
+        Enemy spawnedEnemy = Instantiate(tankEnemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<TankEnemy>();
+        aliveEnemies.Add(spawnedEnemy);
+
+        enemiesSpawned++;
+        Debug.Log($"Enemy spawned at {spawnPosition}! Total: {enemiesSpawned}/{enemiesPerRound}");
+    }
+
+        private void SpawnRunnerEnemy()
+    {
+        if (enemyPrefab == null || areaCenter == null)
+        {
+            Debug.LogError("TankEnemyPrefab or AreaCenter not set!");
+            return;
+        }
+
+        // Get a random spawn position on the circumference of the circle
+        Vector3 spawnPosition = GetRandomPositionOnCircle(spawnDiameter);
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas)) {
+            spawnPosition = hit.position;
+        } else {
+            Debug.LogWarning("No NavMesh nearby spawn point! Skipping enemy spawn.");
+            return;
+        }
+
+
+        // Spawn the enemy and track it in aliveEnemies
+        Enemy spawnedEnemy = Instantiate(runnerEnemyPrefab, spawnPosition, Quaternion.identity).GetComponentInChildren<RunnerEnemy>();
+
+        aliveEnemies.Add(spawnedEnemy);
+
+        enemiesSpawned++;
     }
 
     private Vector3 GetRandomPositionOnCircle(float diameter)
@@ -132,7 +205,7 @@ public class EnemySpawnManager : MonoBehaviour
             Gizmos.DrawWireSphere(areaCenter.position, spawnDiameter / 2);
         }
     }
-    
+
     public void UpdateEnemyCount()
     {
         enemiesPerRound = (int)(enemiesPerRound * enemiesMultiplier);

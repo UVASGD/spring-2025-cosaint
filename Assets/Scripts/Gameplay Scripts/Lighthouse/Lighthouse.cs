@@ -17,7 +17,7 @@ public class Lighthouse : MonoBehaviour
         RoundManager = GameObject.Find("Round Manager").GetComponent<RoundManager>();
     }
 
-    private void Update() 
+    private void Update()
     {
         if (enemiesDamaging.Count > 0)
         {
@@ -45,10 +45,9 @@ public class Lighthouse : MonoBehaviour
         }
 
         currentDamage = damageValue;
-        Debug.Log("Current Enemies Attacking Lighthouse: " + enemiesDamaging.Count +  " at " + currentDamage + " DPS");
-
+        Debug.Log("Current Enemies Attacking Lighthouse: " + enemiesDamaging.Count + " at " + currentDamage + " DPS");
     }
- 
+
     public float GetStartingHealth() => STARTING_HEALTH;
 
     public float GetHealth() => health;
@@ -76,7 +75,7 @@ public class Lighthouse : MonoBehaviour
             AddToEnemiesList(enemy);
         }
     }
-    
+
     // Backup incase enemies glitch out map (happened during testing somehow)
     void OnTriggerExit(Collider other)
     {
@@ -95,14 +94,14 @@ public class Lighthouse : MonoBehaviour
     */
     public void AddToEnemiesList(Enemy enemy)
     {
-        Debug.Log("Adding enemy: " + enemy);
+        Debug.Log("Adding enemy from lighthouse: " + enemy);
         enemiesDamaging.Add(enemy);
         RecalculateCurrentDamage();
     }
 
     public void RemoveFromEnemiesList(Enemy enemy)
     {
-        Debug.Log("Removing enemy: " + enemy);
+        Debug.Log("Removing enemy from lighthouse: " + enemy);
         enemiesDamaging.Remove(enemy);
         RecalculateCurrentDamage();
     }
@@ -112,7 +111,7 @@ public class Lighthouse : MonoBehaviour
         health -= amount * Time.deltaTime;
         CheckLighthouseDeath();
     }
-  
+
     public void CheckLighthouseDeath()
     {
         if (health <= 0)
@@ -128,11 +127,13 @@ public class Lighthouse : MonoBehaviour
         SceneManager.LoadScene("Game Over");
     }
 
-    public void HealLighthouse (float amount) {
-        if (amount < 0) {
+    public void HealLighthouse(float amount)
+    {
+        if (amount < 0)
+        {
             amount = 0;
         }
-        
+
         health += amount;
     }
 }

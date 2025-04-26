@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Damage Ability
   description: Just does straight up damage
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: edbfc5f1a1b380044923de75d97bf7bc, type: 3}
   abilityPrefab: {fileID: 3884776207256394051, guid: d60a700a210eabf4fababce0c93064e8, type: 3}
   abilityClassName: PrototypeAbility
   maxLevel: 10
