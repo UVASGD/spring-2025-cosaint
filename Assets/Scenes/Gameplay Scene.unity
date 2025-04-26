@@ -12289,6 +12289,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.364063
       objectReference: {fileID: 0}
@@ -12333,7 +12345,9 @@ PrefabInstance:
       value: walls
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -7146521406498821007, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
+    - {fileID: -208595431880416365, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21d1d8fc82862bc42b984f22e400f327, type: 3}
