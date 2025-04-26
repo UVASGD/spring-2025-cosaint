@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Vulnerable Ability
   description: Make your enemies have less health for a short time
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 72eba78c27766734386cddd148e3ab70, type: 3}
   abilityPrefab: {fileID: 2223320114088956761, guid: 4621a50229179844f993d6485090a8af, type: 3}
   abilityClassName: PrototypeVulnerableAbility
   maxLevel: 5

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Poison Ability
   description: Make enemies do less damage to the lighthouse for a short time
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 097a714b098b56c49a7241f561a36354, type: 3}
   abilityPrefab: {fileID: 2223320114088956761, guid: 27df90ec62c4670498e3da5778d40d54, type: 3}
   abilityClassName: PrototypePoisonAbility
   maxLevel: 5

@@ -13,6 +13,8 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private Button buyButton;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button sellButton;
+    public ShopAbilitySO AbilitySO => currentAbilitySO;
+
 
     private ShopAbilitySO currentAbilitySO;
     private ShopManager shopManager;
@@ -52,85 +54,77 @@ public class ShopItemUI : MonoBehaviour
     // Updates level, cost, and button visibility/interactivity
     public void UpdateUI()
     {
-        if (currentAbilitySO == null || player == null) return; // Not initialized yet
+        if (currentAbilitySO == null || player == null) return;
 
         int currentWisdom = player.GetWisdomPoints();
         bool isOwned = ownedAbilityInstance != null && ownedAbilityInstance.CurrentLevel > 0;
         int currentLevel = isOwned ? ownedAbilityInstance.CurrentLevel : 0;
+        bool slotsAvailable = player.FreeSlots(); // ✅ NEW: Check if slot is available
 
-        // --- Update Level Text ---
+        // --- Level Text ---
         if (currentAbilitySO.isOneTimePurchase)
         {
-             levelText.text = "One-Time";
+            levelText.text = "One-Time";
         }
         else if (isOwned)
         {
-            if (currentLevel >= currentAbilitySO.maxLevel)
-            {
-                levelText.text = $"Level: MAX ({currentLevel})";
-            }
-            else
-            {
-                levelText.text = $"Level: {currentLevel}";
-            }
+            levelText.text = currentLevel >= currentAbilitySO.maxLevel
+                ? $"Level: MAX ({currentLevel})"
+                : $"Level: {currentLevel}";
         }
         else
         {
-            levelText.text = "Level: 0"; // Not Owned
+            levelText.text = "Level: 0";
         }
 
-        // --- Determine Costs ---
+        // --- Costs ---
         int buyCost = currentAbilitySO.GetCostForLevel(1);
-        int upgradeCost = isOwned ? ownedAbilityInstance.GetNextUpgradeCost() : -1; // -1 if not upgradeable
-        int sellValue = isOwned ? ownedAbilityInstance.TotalWisdomInvested : 0; // Sell for total invested
+        int upgradeCost = isOwned ? ownedAbilityInstance.GetNextUpgradeCost() : -1;
+        int sellValue = isOwned ? ownedAbilityInstance.TotalWisdomInvested : 0;
 
-        // --- Update Button Visibility and Interactivity ---
-
-        // BUY Button
-        buyButton.gameObject.SetActive(!isOwned); // Show if not owned
+        // --- BUY Button ---
+        buyButton.gameObject.SetActive(!isOwned);
         if (!isOwned)
         {
-            buyButton.interactable = currentWisdom >= buyCost;
-            costText.text = $"Cost: {buyCost} WP";
+            buyButton.interactable = currentWisdom >= buyCost && slotsAvailable;
+
+            // ✅ NEW: Slot limit warning
+            costText.text = slotsAvailable
+                ? $"Cost: {buyCost} WP"
+                : "Max slots reached";
+
             costText.gameObject.SetActive(true);
         }
 
-        // UPGRADE Button
+        // --- UPGRADE Button ---
         bool canUpgrade = isOwned && !currentAbilitySO.isOneTimePurchase && currentLevel < currentAbilitySO.maxLevel;
-        upgradeButton.gameObject.SetActive(canUpgrade); // Show if owned, not one-time, and not max level
+        upgradeButton.gameObject.SetActive(canUpgrade);
         if (canUpgrade)
         {
             upgradeButton.interactable = currentWisdom >= upgradeCost;
             costText.text = $"Upgrade Cost: {upgradeCost} WP";
-             costText.gameObject.SetActive(true);
+            costText.gameObject.SetActive(true);
         }
 
-        // SELL Button
-        bool canSell = isOwned && !currentAbilitySO.isOneTimePurchase; // Can't sell one-time items (or adjust if needed)
-        sellButton.gameObject.SetActive(canSell); // Show if owned and not one-time
+        // --- SELL Button ---
+        bool canSell = isOwned && !currentAbilitySO.isOneTimePurchase;
+        sellButton.gameObject.SetActive(canSell);
         if (canSell)
         {
-             sellButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Sell ({sellValue} WP)"; // Update sell button text
-            // No cost text needed when only sell is visible, hide it unless buy/upgrade are also shown
-             if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf)
-             {
-                 costText.gameObject.SetActive(false);
-             }
+            sellButton.GetComponentInChildren<TextMeshProUGUI>().text = $"Sell ({sellValue} WP)";
+            if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf)
+            {
+                costText.gameObject.SetActive(false);
+            }
         }
 
-         // If nothing else sets the cost text, hide it
-         if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && !sellButton.gameObject.activeSelf)
-         {
-              costText.gameObject.SetActive(false);
-         }
-         // Handle the case where only the sell button is active
-         else if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && sellButton.gameObject.activeSelf)
-         {
-              costText.gameObject.SetActive(false); // Selling shows value on button
-         }
-
-
+        // --- Final fallback: hide cost text if nothing should show it
+        if (!buyButton.gameObject.activeSelf && !upgradeButton.gameObject.activeSelf && !sellButton.gameObject.activeSelf)
+        {
+            costText.gameObject.SetActive(false);
+        }
     }
+
 
     // --- Button Click Handlers ---
     private void OnBuyClicked()
@@ -151,7 +145,7 @@ public class ShopItemUI : MonoBehaviour
 
     private void OnSellClicked()
     {
-         if (shopManager != null && ownedAbilityInstance != null) // Need the instance to sell
+        if (shopManager != null && ownedAbilityInstance != null) // Need the instance to sell
         {
             shopManager.TrySellAbility(ownedAbilityInstance, this);
         }
