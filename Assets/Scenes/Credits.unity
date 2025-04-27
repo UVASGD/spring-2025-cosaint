@@ -772,11 +772,7 @@ MonoBehaviour:
     Avarice Stankiewicz - 3D Artist
 
     Anmol Thapa - Programmer
-    and Designer
-
-
-
-'
+    and Designer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f9dc09295b929d4c930f3844187623c, type: 2}
   m_sharedMaterial: {fileID: -8900966352581215494, guid: 1f9dc09295b929d4c930f3844187623c, type: 2}
@@ -841,7 +837,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 26.851898}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
