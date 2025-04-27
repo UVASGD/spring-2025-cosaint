@@ -63,6 +63,7 @@ public abstract class AbilityBase
     // --- Core Activation Logic ---
     public virtual bool CanActivate()
     {
+        if (RoundManager.Instance.GetCurrentRoundPhase() == RoundManager.RoundPhase.ShopPhase) return false;
         return Time.time >= lastActivationTime + cooldown && CurrentLevel > 0; // Must be owned
     }
 

@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
@@ -37,7 +38,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Quit Game");
     }
 
-    public void PlayGame()
+    public void PlayGameCutscene()
     {
         // Hide menu UI
         if (menuUI != null)
@@ -70,6 +71,11 @@ public class MainMenu : MonoBehaviour
             // If no cutscene, immediately load gameplay scene
             SceneManager.LoadScene(gameplaySceneName);
         }
+    }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(gameplaySceneName);
     }
 
     private bool isFading = false;
