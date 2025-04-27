@@ -43,32 +43,34 @@ public class EnemySpawnManager : MonoBehaviour
         }
     }
 
-    private void Update()
+private void Update()
+{
+    if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning)
     {
-        if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesSpawning && enemiesSpawned < enemiesPerRound)
-        {
-            spawnTimer += Time.deltaTime;
+        spawnTimer += Time.deltaTime;
 
-            if (spawnTimer >= spawnDelay)
-            {
-                SpawnEnemy();
-                SpawnTankEnemy();
-                //SpawnRunnerEnemy();
-                spawnTimer = 0f;
-            }
+        if (spawnTimer >= spawnDelay && enemiesSpawned < enemiesPerRound)
+        {
+            SpawnEnemy();
+            SpawnTankEnemy();
+            spawnTimer = 0f;
         }
 
-        if (enemiesPerRound == enemiesSpawned)
+        if (enemiesSpawned >= enemiesPerRound)
         {
             roundManager.AdvancePhase();
             ResetSpawnedCount();
         }
-
-        if (AreAllEnemiesDefeated() && roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
+    }
+    else if (roundManager.GetCurrentRoundPhase() == RoundManager.RoundPhase.EnemiesNoLongerSpawning)
+    {
+        if (AreAllEnemiesDefeated())
         {
+            Debug.Log("All enemies defeated!");
             roundManager.AdvancePhase();
         }
     }
+}
 
     private void SpawnEnemy()
     {
@@ -184,8 +186,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     private bool AreAllEnemiesDefeated()
     {
+        Debug.Log("enemies all DEFEATED CALLED");
         // Check if there are no active instances of the enemyPrefab in the scene
-        return GameObject.FindGameObjectsWithTag(enemyPrefab.tag).Length == 0;
+        return aliveEnemies.Count == 0;
     }
 
     private void OnDrawGizmos()

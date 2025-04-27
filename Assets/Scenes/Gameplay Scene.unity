@@ -24815,8 +24815,8 @@ MonoBehaviour:
   - {fileID: 1553411160}
   - {fileID: 881007212}
   spawnDiameter: 50
-  enemiesMultiplier: 1.5
-  enemiesPerRound: 2
+  enemiesMultiplier: 2
+  enemiesPerRound: 1
   spawnDelay: 3
 --- !u!4 &1019380935
 Transform:
