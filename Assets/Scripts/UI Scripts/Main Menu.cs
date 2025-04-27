@@ -89,4 +89,9 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(gameplaySceneName);
     }
 
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
 }
