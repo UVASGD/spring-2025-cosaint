@@ -191,7 +191,7 @@ public class RoundManager : MonoBehaviour
     {
         currentRound++;
         enemySpawnManager.UpdateEnemyCount();
-        player.AwardWisdomPoints(2);
+        player.AwardWisdomPoints(3);
         SetRoundPhase(RoundPhase.ShopPhase);
     }
 

@@ -42,8 +42,8 @@ public class PrototypeBeguileAbility : AbilityBase
         if (projectileComponent != null)
         {
             // --- Define Base Values and Scaling (Example) ---
-            float baseDuration = 6.0f;      // Level 1 duration
-            float durationIncreasePerLevel = 1.0f; // +1s duration per level > 1
+            float baseDuration = 7.0f;      // Level 1 duration
+            float durationIncreasePerLevel = 1.2f; 
 
             float baseStrength = 0.5f;      // Level 1 effect strength (e.g., 50%)
             float strengthIncreasePerLevel = 0.1f; // +10% strength per level > 1

@@ -8,7 +8,7 @@ public class PrototypeAbility : AbilityBase
     private GameObject projectilePrefab;
 
     public PrototypeAbility(ShopAbilitySO shopData, GameObject prefab)
-        : base(shopData, KeyCode.E, 3f, AbilityFireType.TAP) // Pass SO, Key, Cooldown, Type
+        : base(shopData, KeyCode.E, 2.5f, AbilityFireType.TAP) // Pass SO, Key, Cooldown, Type
     {
         if (prefab == null) { Debug.LogError($"Prefab is null for ability {shopData?.abilityName ?? "Ability"}!"); }
         this.projectilePrefab = prefab;
@@ -42,8 +42,8 @@ public class PrototypeAbility : AbilityBase
         if (projectileComponent != null)
         {
             // --- Define Base Values and Scaling ---
-            float baseDamage = 10.0f;    // Level 1 damage
-            float damageMultiplierPerLevel = 1.1f; // 10% damage increase per level
+            float baseDamage = 30.0f;    // Level 1 damage
+            float damageMultiplierPerLevel = 1.2f;
 
             // --- Calculate current stats based on level ---
             float currentDamage = baseDamage * Mathf.Pow(damageMultiplierPerLevel, CurrentLevel - 1);

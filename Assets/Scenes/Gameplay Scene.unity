@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64310e6fcac4d8c49ad1971a9905c514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wisdomPoints: 50
+  wisdomPoints: 10
 --- !u!1 &18515600
 GameObject:
   m_ObjectHideFlags: 0
@@ -24816,7 +24816,7 @@ MonoBehaviour:
   - {fileID: 881007212}
   spawnDiameter: 50
   enemiesMultiplier: 2
-  enemiesPerRound: 1
+  enemiesPerRound: 2
   spawnDelay: 3
 --- !u!4 &1019380935
 Transform:

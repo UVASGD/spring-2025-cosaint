@@ -42,8 +42,8 @@ public class PrototypeVulnerableAbility : AbilityBase
         ProtopyeVulnerableProjectile projectileComponent = projectile.GetComponent<ProtopyeVulnerableProjectile>();
         if (projectileComponent != null)
         {
-            float baseDuration = 3.0f; // Level 1 duration
-            float durationIncreasePerLevel = 0.5f; // Bonus per level > 1
+            float baseDuration = 2.5f; // Level 1 duration
+            float durationIncreasePerLevel = 0.6f; // Bonus per level > 1
             float currentDuration = baseDuration + (CurrentLevel - 1) * durationIncreasePerLevel;
 
 

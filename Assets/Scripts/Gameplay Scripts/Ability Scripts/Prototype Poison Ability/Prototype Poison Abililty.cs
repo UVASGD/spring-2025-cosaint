@@ -39,19 +39,19 @@ public class PrototypePoisonAbility : AbilityBase
         if (projectileComponent != null)
         {
             // Define base values for Level 1
-            float basePoisonTime = 5.0f;
+            float basePoisonTime = 4.0f;
             float basePoisonWeakness = 1.0f; // Assume 1.0 means normal damage taken
 
             // Define how much stats change per level upgrade
-            float timeMultiplierPerLevel = 1.1f; // 10% increase per level
-            float weaknessMultiplierPerLevel = 0.9f; // 10% decrease per level (stronger effect)
+            float timeMultiplierPerLevel = 1.15f; // 10% increase per level
+            float weaknessMultiplierPerLevel = 0.85f; // 10% decrease per level (stronger effect)
 
             // Calculate the actual values for the CurrentLevel
             float currentPoisonTime = basePoisonTime * Mathf.Pow(timeMultiplierPerLevel, CurrentLevel - 1);
             float currentPoisonWeakness = basePoisonWeakness * Mathf.Pow(weaknessMultiplierPerLevel, CurrentLevel - 1);
 
             // Add a safety floor for weakness
-            currentPoisonWeakness = Mathf.Max(currentPoisonWeakness, 0.1f);
+            currentPoisonWeakness = Mathf.Max(currentPoisonWeakness, 0.2f);
 
             projectileComponent.PoisonTime = currentPoisonTime;
             projectileComponent.PoisonWeakness = currentPoisonWeakness;

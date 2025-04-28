@@ -37,14 +37,14 @@ public class PrototypeSlowAbility : AbilityBase
         ProtopyeSlowProjectile projectileComponent = projectile.GetComponent<ProtopyeSlowProjectile>();
         if (projectileComponent != null)
         {
-            float baseSlowTime = 4.0f;
-            float timeMultiplierPerLevel = 1.1f;
-            float baseSlowMagnitude = 0.7f;
-            float magnitudeMultiplierPerLevel = 0.95f;
+            float baseSlowTime = 3.5f;
+            float timeMultiplierPerLevel = 1.15f;
+            float baseSlowMagnitude = 0.6f;
+            float magnitudeMultiplierPerLevel = 0.9f;
 
             float currentSlowTime = baseSlowTime * Mathf.Pow(timeMultiplierPerLevel, CurrentLevel - 1);
             float currentSlowMagnitude = baseSlowMagnitude * Mathf.Pow(magnitudeMultiplierPerLevel, CurrentLevel - 1);
-            currentSlowMagnitude = Mathf.Max(currentSlowMagnitude, 0.1f); // Prevent excessive slow
+            currentSlowMagnitude = Mathf.Max(currentSlowMagnitude, 0.2f); // Prevent excessive slow
 
             projectileComponent.SlowTime = currentSlowTime;
             projectileComponent.SlowMagnitude = currentSlowMagnitude;

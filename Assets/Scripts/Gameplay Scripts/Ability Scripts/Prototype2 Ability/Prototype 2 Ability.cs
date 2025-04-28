@@ -33,7 +33,7 @@ public class Prototype2Ability : AbilityBase
         Protopye2Projectile projectileComponent = projectile.GetComponent<Protopye2Projectile>();
         if (projectileComponent != null)
         {
-            float baseFreezeTime = 5f;
+            float baseFreezeTime = 4f;
             float currentFreezeTime = baseFreezeTime * (1 + (CurrentLevel - 1) * 0.1f);
 
             // Use the setter method if it exists on Protopye2Projectile

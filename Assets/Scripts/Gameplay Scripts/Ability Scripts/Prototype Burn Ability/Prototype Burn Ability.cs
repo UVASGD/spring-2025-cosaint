@@ -40,13 +40,13 @@ public class PrototypeBurnAbility : AbilityBase
         if (projectileComponent != null)
         {
             // --- Define Base Values and Scaling ---
-            float baseTickDuration = 1.0f;   // Level 1 time between ticks
-            float durationMultiplierPerLevel = 0.9f; // Ticks get faster
+            float baseTickDuration = 0.8f;   // Level 1 time between ticks
+            float durationMultiplierPerLevel = 0.8f; // Ticks get faster
 
-            float baseBurnDamage = 5.0f;     // Level 1 damage per tick
-            float damageMultiplierPerLevel = 1.1f; // Damage increases
+            float baseBurnDamage = 6.0f;     // Level 1 damage per tick
+            float damageMultiplierPerLevel = 1.2f; // Damage increases
 
-            int baseNumTicks = 3;          // Level 1 number of ticks
+            int baseNumTicks = 4;          // Level 1 number of ticks
             int ticksIncreasePerLevel = 1;     // Linear increase in tick count
 
             // --- Calculate current stats based on level ---
